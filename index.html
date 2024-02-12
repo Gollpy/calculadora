@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calculadora</title>
+    <style>
+      #entrada {
+        text-align: end;
+      }
+      .botao{
+        font-family: Arial, sans-serif;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <input type="text" id="entrada" ma>
+      <!--
+        proximo passo: 
+        add o recurso de histórico e mensagem de erros
+      --> 
+      <p id="historico"></p>
+      <div id="botoes">
+        <button class="botao car car__zero" value="0">0</button>
+        <button class="botao car car__um" value="1">1</button>
+        <button class="botao car car__dois" value="2">2</button>
+        <button class="botao car car__tres" value="3">3</button>
+        <button class="botao car car__quatro" value="4">4</button>
+        <button class="botao car car__cinco" value="5">5</button>
+        <button class="botao car car__seis" value="6">6</button>
+        <button class="botao car car__sete" value="7">7</button>
+        <button class="botao car car__oito" value="8">8</button>
+        <button class="botao car car__nove" value="9">9</button>
+        <button class="botao car_operador car__adiçao" value="+">+</button>
+        <button class="botao car_operador car__subtração" value="-">-</button>
+        <button class="botao car_operador car__multiplicação" value="&#x00D7;">
+          &#x00D7;
+        </button>
+        <button class="botao car_operador car__divisão" value="÷">÷</button>
+        <button class="botao car_operador car__potenciação" value="^">^</button>
+        <button class="botao car_operador car__radiciação" value="√">
+          &#x221A;
+        </button>
+        <button class="botao car_operador car__porcentagem" value="%">%</button>
+        <button class="botao car car__inserir_frações" value=",">,</button>
+        <button class="botao car car__inserir_abrir_parenteses" value="(">
+          (
+        </button>
+        <button class="botao car car__inserir_fechar_parenteses" value=")">
+          )
+        </button>
+        <button class="botao alterar_sinal">+/-</button>
+        <button class="botao igual">=</button>
+        <button class="botao limpar_tudo">AC</button>
+        <button class="botao apagar">←x</button>
+      </div>
+    </div>
+    
+    <script type="module" src="./script/main.js"></script>
+  </body>
+</html>
