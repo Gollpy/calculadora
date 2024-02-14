@@ -6,7 +6,7 @@ multiplicar: "\u00D7",
 
 */
 
-export function retornaPosicaoDoPonteiro(alvo, posicao, avancar) {
+export function retornaPosicaoDaBarra(alvo, posicao, avancar) {
   alvo.setSelectionRange(posicao + avancar, posicao + avancar);
 }
 
