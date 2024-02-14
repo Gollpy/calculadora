@@ -1,6 +1,7 @@
 export function operacoes(input) {
   input = mudaCaracteres(input);
 
+  
   while (/[(\u221A\u005E%]/.test(input)) {
     if (/[(][\d\u221A\u005E%+*/e-]+[)]/.test(input)) {
       input = operacaoEntreParenteses(input);
@@ -15,8 +16,7 @@ export function operacoes(input) {
 
   input = `${avaliarExpressao(input)}`;
   input = input.replace(/[.]/, ",");
-  
-  return `${input}`;
+  return input;
 }
 function mudaCaracteres(params) {
   let valor = "";

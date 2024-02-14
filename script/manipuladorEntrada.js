@@ -6,6 +6,10 @@ multiplicar: "\u00D7",
 
 */
 
+export function retornaPosicaoDoPonteiro(alvo, posicao, avancar) {
+  alvo.setSelectionRange(posicao + avancar, posicao + avancar);
+}
+
 export function removerCaracterNaoPermitidos(input) {
   const regex = new RegExp(/[0-9\u00D7\u00F7+^√%,().e-]/g);
 if (/[e]{2,9}/.test(input)) {
@@ -42,7 +46,6 @@ export function adicionarPontoCentena(numero) {
   e caracteres de operadores e outros ->->->->->->*/
 
 export function adicionarCaractere(input, character) {
-  console.log(character)
   let posicao = input.selectionStart;
   let parte1 = input.value.substring(0, posicao);
   let parte2 = input.value.substring(posicao);
@@ -85,14 +88,10 @@ export function adicionarCaractere(input, character) {
 
 /*<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<- */
 
-export function retornaPosicaoDoPonteiro(alvo, posicao, avancar) {
-  alvo.focus();
-  alvo.setSelectionRange(posicao + avancar, posicao + avancar);
-}
 
 export function apagarCaractere(input, avancar) {
   avancar ? (avancar = Number(avancar)) : (avancar = 1);
-
+  // avancar = Number(avancar) |
   let posicao = input.selectionStart;
   let parte1 = input.value.substring(0, posicao - avancar);
   let parte2 = input.value.substring(posicao);
