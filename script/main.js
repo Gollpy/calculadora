@@ -4,7 +4,7 @@ import {
   adicionarPontoCentena,
   adicionarCaractere,
   apagarCaractere,
-  retornaPosicaoDoPonteiro,
+  retornaPosicaoDaBarra,
   inverterSinal,
 } from "./manipuladorEntrada.js";
 
@@ -43,19 +43,21 @@ entrada.addEventListener("keydown", (event) => {
     }
   } else if (event.key === "Backspace") {
     if (PPB_A !== PPB_B) {
-      // retornaPosicaoDoPonteiro(entrada, PPB_B, 0);
+      retornaPosicaoDaBarra(entrada, PPB_B, 0);
       apagarCaractere(entrada, PPB_B - PPB_A);
       entrada.value = adicionarPontoCentena(entrada.value);
-      lengthAnterior = lengthAnterior - (PPB_B - PPB_A);
+            lengthAnterior = lengthAnterior - (PPB_B - PPB_A);
     } else if (entrada.value.substring(PPB_A - 1)[0] === ".") {
       apagarCaractere(entrada, 2);
     }
   }
+  // console.log('str2: ' + entrada.value);
+  // console.log('str2: ' + entrada.value);
 
-  if (lengthAnterior === entrada.length) {
+  if (lengthAnterior !== entrada.value.length) {
     entrada.value = adicionarPontoCentena(entrada.value);
     lengthPosterior = entrada.value.length;
-    retornaPosicaoDoPonteiro(entrada, PPB_A, lengthPosterior - lengthAnterior);
+    retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
   }
 });
 
@@ -66,12 +68,12 @@ entrada.addEventListener("input", (event) => {
   let lengthAnterior = entrada.value.length;
   let lengthPosterior;
 
-  if (lengthAnterior !== entrada.length) {
-    alvo.value = removerCaracterNaoPermitidos(alvo.value);
-    alvo.value = adicionarPontoCentena(alvo.value);
-    lengthPosterior = entrada.value.length;
-    retornaPosicaoDoPonteiro(entrada, PPB_A, lengthPosterior - lengthAnterior);
-  }
+  // if (lengthAnterior !== entrada.value.length) {
+  alvo.value = removerCaracterNaoPermitidos(alvo.value);
+  alvo.value = adicionarPontoCentena(alvo.value);
+  lengthPosterior = entrada.value.length;
+  retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
+  // }
 });
 
 botoes.addEventListener("click", (event) => {
@@ -98,28 +100,30 @@ botoes.addEventListener("click", (event) => {
         break;
       case "apagar":
         /* chaves tem o objetivo de evitar problemas futuros */
-        let avanco;
+        let avancar;
 
         if (PPB_A != PPB_B) {
           /* apaga vários caracteres selecionados */
-
           //retorna o ponteiro para a posição de PPB_B
-          retornaPosicaoDoPonteiro(entrada, PPB_B, 0);
-          //apaga os caracteres que foram selecionados
-          avanco = PPB_B - PPB_A;
-          /* como o length do 'entrada.value' não é mais o mesmo, 
-               então atualizamos o 'lengthAnterior' para o valor atual*/
-          // lengthAnterior = lengthAnterior - (PPB_B - PPB_A);
+          retornaPosicaoDaBarra(entrada, PPB_B, 0);
+          avancar = PPB_B - PPB_A;
+          //apaga todos os caracteres selecionados
+          apagarCaractere(entrada, avancar);
+          //para o ponteiro de barra retornar a posição de origem
+          // é preciso igualar os valores de PPB_B com PPB_A
+          PPB_B = PPB_A
+          //e igualar os valores de lengthAnterior com o length atual de 'entrada.value'
+          lengthAnterior = entrada.value.length
         } else {
           /* apaga um único caractere */
           if (entrada.value.substring(PPB_A - 1)[0] === ".") {
-            avanco = 2;
+            avancar = 2;
           } else {
-            avanco = 1;
+            avancar = 1;
           }
+          apagarCaractere(entrada, avancar);
         }
 
-        apagarCaractere(entrada, avanco);
         break;
       case "igual":
         let resultado = entrada.value ? operacoes(entrada.value) : null;
@@ -140,18 +144,17 @@ botoes.addEventListener("click", (event) => {
     //captura o comprimento da string depois que são add novos caractere
     // lengthPosterior = entrada.value.length;
     //retorna a posição do ponteiro com base na posição anterior e o comprimento da string anterior e posterior
-    /* retornaPosicaoDoPonteiro(
+    /* retornaPosicaoDaBarra(
         entrada,
         PPB_A,
         lengthPosterior - lengthAnterior
       ); */
   });
 
-  if (lengthAnterior !== entrada.length) {
     entrada.value = adicionarPontoCentena(entrada.value);
     lengthPosterior = entrada.value.length;
-    retornaPosicaoDoPonteiro(entrada, PPB_A, lengthPosterior - lengthAnterior);
-  }
+    console.log(PPB_A, PPB_B);
+    retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
 
 function addAoHistorico(param) {
