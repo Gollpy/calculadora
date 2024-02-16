@@ -1,4 +1,5 @@
 import { operacoes } from "./funcoesMatematicas.js";
+import {addAoHistorico} from "./historicoDeResultados.js"
 import {
   removerCaracterNaoPermitidos,
   adicionarPontoCentena,
@@ -13,14 +14,11 @@ const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
 
 entrada.addEventListener("keydown", (event) => {
-  console.log(event);
   const valorAnteriorStr = event.target.value;
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
   var lengthAnterior = entrada.value.length;
   var lengthPosterior;
-
-  var acoesDeTecla = { acoesDeTecla: false };
 
   var caractere = {
     multiplicar: "\u00D7",
@@ -45,23 +43,24 @@ entrada.addEventListener("keydown", (event) => {
     entrada.value = resultado;
 
     if (resultado) {
-      addAoHistorico(resultado);
+      addAoHistorico(historico,resultado);
     }
   } else if (event.key === "Backspace") {
-    event.preventDefault()
+    // desabilita as ações das teclas, impedindo que "Backspace" apague um caractere a mais
+    event.preventDefault();
+
     if (PPB_A !== PPB_B) {
       retornaPosicaoDaBarra(entrada, PPB_B, 0);
       apagarCaractere(entrada, PPB_B - PPB_A);
       lengthAnterior = entrada.value.length;
     } else if (entrada.value.substring(PPB_A - 1)[0] === ".") {
       apagarCaractere(entrada, 2);
+    } else {
+      apagarCaractere(entrada, 1);
     }
   }
 
-  if (
-    lengthAnterior !== entrada.value.length ||
-    valorAnteriorStr !== entrada.value
-  ) {
+  if (valorAnteriorStr !== entrada.value) {
     entrada.value = adicionarPontoCentena(entrada.value);
     lengthPosterior = entrada.value.length;
     retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
@@ -133,7 +132,7 @@ botoes.addEventListener("click", (event) => {
         PPB_A = 0;
 
         if (resultado) {
-          addAoHistorico(resultado);
+          addAoHistorico(historico,resultado);
         }
 
         break;
@@ -159,8 +158,4 @@ botoes.addEventListener("click", (event) => {
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
 
-function addAoHistorico(param) {
-  let elemento = document.createElement("li");
-  elemento.innerText = param;
-  historico.append(elemento);
-}
+
