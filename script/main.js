@@ -13,12 +13,16 @@ const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
 
 entrada.addEventListener("keydown", (event) => {
-  let PPB_A = entrada.selectionStart;
-  let PPB_B = entrada.selectionEnd;
-  let lengthAnterior = entrada.value.length;
-  let lengthPosterior;
+  console.log(event);
+  const valorAnteriorStr = event.target.value;
+  var PPB_A = entrada.selectionStart;
+  var PPB_B = entrada.selectionEnd;
+  var lengthAnterior = entrada.value.length;
+  var lengthPosterior;
 
-  let caractere = {
+  var acoesDeTecla = { acoesDeTecla: false };
+
+  var caractere = {
     multiplicar: "\u00D7",
     dividir: "\u00F7",
     raiz: "\u221A",
@@ -35,26 +39,29 @@ entrada.addEventListener("keydown", (event) => {
   } else if (event.key === "Dead") {
     adicionarCaractere(entrada, caractere.potencia);
   } else if (event.key === "Enter") {
-    let resultado = entrada.value ? operacoes(entrada.value) : null;
+    let resultado = entrada.value
+      ? adicionarPontoCentena(operacoes(entrada.value))
+      : null;
     entrada.value = resultado;
 
     if (resultado) {
       addAoHistorico(resultado);
     }
   } else if (event.key === "Backspace") {
+    event.preventDefault()
     if (PPB_A !== PPB_B) {
       retornaPosicaoDaBarra(entrada, PPB_B, 0);
       apagarCaractere(entrada, PPB_B - PPB_A);
-      entrada.value = adicionarPontoCentena(entrada.value);
-            lengthAnterior = lengthAnterior - (PPB_B - PPB_A);
+      lengthAnterior = entrada.value.length;
     } else if (entrada.value.substring(PPB_A - 1)[0] === ".") {
       apagarCaractere(entrada, 2);
     }
   }
-  // console.log('str2: ' + entrada.value);
-  // console.log('str2: ' + entrada.value);
 
-  if (lengthAnterior !== entrada.value.length) {
+  if (
+    lengthAnterior !== entrada.value.length ||
+    valorAnteriorStr !== entrada.value
+  ) {
     entrada.value = adicionarPontoCentena(entrada.value);
     lengthPosterior = entrada.value.length;
     retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
@@ -62,27 +69,25 @@ entrada.addEventListener("keydown", (event) => {
 });
 
 entrada.addEventListener("input", (event) => {
-  let alvo = event.target;
-  let PPB_A = entrada.selectionStart;
-  let PPB_B = entrada.selectionEnd;
-  let lengthAnterior = entrada.value.length;
-  let lengthPosterior;
+  var alvo = event.target;
+  var PPB_A = entrada.selectionStart;
+  var PPB_B = entrada.selectionEnd;
+  var lengthAnterior = entrada.value.length;
+  var lengthPosterior;
 
-  // if (lengthAnterior !== entrada.value.length) {
   alvo.value = removerCaracterNaoPermitidos(alvo.value);
   alvo.value = adicionarPontoCentena(alvo.value);
   lengthPosterior = entrada.value.length;
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
-  // }
 });
 
 botoes.addEventListener("click", (event) => {
   const alvo = event.target;
-  let PPB_A = entrada.selectionStart;
-  let PPB_B = entrada.selectionEnd;
+  var PPB_A = entrada.selectionStart;
+  var PPB_B = entrada.selectionEnd;
   //captura o comprimento da string antes de ser add novos caractere
-  let lengthAnterior = entrada.value.length;
-  let lengthPosterior;
+  var lengthAnterior = entrada.value.length;
+  var lengthPosterior;
   const novoCaractere = alvo.value;
 
   let classes = [...alvo.classList];
@@ -99,7 +104,6 @@ botoes.addEventListener("click", (event) => {
         entrada.value = "";
         break;
       case "apagar":
-        /* chaves tem o objetivo de evitar problemas futuros */
         let avancar;
 
         if (PPB_A != PPB_B) {
@@ -110,10 +114,8 @@ botoes.addEventListener("click", (event) => {
           //apaga todos os caracteres selecionados
           apagarCaractere(entrada, avancar);
           //para o ponteiro de barra retornar a posição de origem
-          // é preciso igualar os valores de PPB_B com PPB_A
-          PPB_B = PPB_A
-          //e igualar os valores de lengthAnterior com o length atual de 'entrada.value'
-          lengthAnterior = entrada.value.length
+          //igualar os valores de lengthAnterior com o length atual de 'entrada.value'
+          lengthAnterior = entrada.value.length;
         } else {
           /* apaga um único caractere */
           if (entrada.value.substring(PPB_A - 1)[0] === ".") {
@@ -151,10 +153,10 @@ botoes.addEventListener("click", (event) => {
       ); */
   });
 
-    entrada.value = adicionarPontoCentena(entrada.value);
-    lengthPosterior = entrada.value.length;
-    console.log(PPB_A, PPB_B);
-    retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
+  entrada.value = adicionarPontoCentena(entrada.value);
+  lengthPosterior = entrada.value.length;
+  // console.log(PPB_A, PPB_B);
+  retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
 
 function addAoHistorico(param) {
