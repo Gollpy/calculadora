@@ -81,7 +81,7 @@ entrada.addEventListener("input", (event) => {
 });
 
 botoes.addEventListener("click", (event) => {
-  const valorAnteriorStr = entrada.value;
+  const expressaoInput = entrada.value;
   const alvo = event.target;
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
@@ -133,7 +133,7 @@ botoes.addEventListener("click", (event) => {
         PPB_A = 0;
 
         if (resultado) {
-          addAoHistorico(historico, valorAnteriorStr, resultado);
+          historico.innerHTML += addAoHistorico(expressaoInput, resultado);
         }
 
         break;
@@ -155,7 +155,6 @@ botoes.addEventListener("click", (event) => {
 
   entrada.value = adicionarPontoCentena(entrada.value);
   lengthPosterior = entrada.value.length;
-  // console.log(PPB_A, PPB_B);
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
 
@@ -165,7 +164,7 @@ historico.addEventListener("click", async (event) => {
   switch (alvo.classList[0]) {
     case "addResultado":
       entrada.value += alvo.value;
-      break;
+    break;
     case "copiarResultado":
       var texto = alvo.value;
       try {
@@ -173,7 +172,7 @@ historico.addEventListener("click", async (event) => {
       } catch (err) {
         console.error("Erro ao copiar o resultado: ", err);
       }
-      break;
+    break;
   }
 
   if (alvo.classList[0] === "addResultado") {

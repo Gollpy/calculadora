@@ -1,5 +1,5 @@
-export function addAoHistorico(elementoPai, expressao, resultado) {
-  elementoPai.innerHTML += `
+export function addAoHistorico(expressao, resultado) {
+  return `
     <li>
         <div>
             <p>${expressao} =</p>
