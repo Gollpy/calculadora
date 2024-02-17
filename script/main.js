@@ -1,5 +1,5 @@
 import { operacoes } from "./funcoesMatematicas.js";
-import {addAoHistorico} from "./historicoDeResultados.js"
+import { addAoHistorico } from "./historicoDeResultados.js";
 import {
   removerCaracterNaoPermitidos,
   adicionarPontoCentena,
@@ -43,7 +43,7 @@ entrada.addEventListener("keydown", (event) => {
     entrada.value = resultado;
 
     if (resultado) {
-      addAoHistorico(historico,resultado);
+      addAoHistorico(historico, valorAnteriorStr, resultado);
     }
   } else if (event.key === "Backspace") {
     // desabilita as ações das teclas, impedindo que "Backspace" apague um caractere a mais
@@ -81,6 +81,7 @@ entrada.addEventListener("input", (event) => {
 });
 
 botoes.addEventListener("click", (event) => {
+  const valorAnteriorStr = entrada.value;
   const alvo = event.target;
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
@@ -132,7 +133,7 @@ botoes.addEventListener("click", (event) => {
         PPB_A = 0;
 
         if (resultado) {
-          addAoHistorico(historico,resultado);
+          addAoHistorico(historico, valorAnteriorStr, resultado);
         }
 
         break;
@@ -158,4 +159,24 @@ botoes.addEventListener("click", (event) => {
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
 
+historico.addEventListener("click", async (event) => {
+  const alvo = event.target;
 
+  switch (alvo.classList[0]) {
+    case "addResultado":
+      entrada.value += alvo.value;
+      break;
+    case "copiarResultado":
+      var texto = alvo.value;
+      try {
+        await navigator.clipboard.writeText(texto);
+      } catch (err) {
+        console.error("Erro ao copiar o resultado: ", err);
+      }
+      break;
+  }
+
+  if (alvo.classList[0] === "addResultado") {
+    entrada.value = adicionarPontoCentena(entrada.value);
+  }
+});
