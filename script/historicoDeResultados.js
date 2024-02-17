@@ -1,5 +1,15 @@
-export function addAoHistorico(elemento,valor) {
-    let e = document.createElement("li");
-    e.innerText = valor;
-    elemento.append(e);
+export function addAoHistorico(elementoPai, expressao, resultado) {
+  elementoPai.innerHTML += `
+    <li>
+        <div>
+            <p>${expressao} =</p>
+            <button class="copiarResultado" value="${expressao}">copiar</button>
+            <button class="addResultado" value="${expressao}">add</button>
+        </div>
+        <div>
+            <p>${resultado}</p>
+            <button class="copiarResultado" value="${resultado}">copiar</button>
+            <button class="addResultado" value="${resultado}">add</button>
+        </div>
+    </li>`;
 }
