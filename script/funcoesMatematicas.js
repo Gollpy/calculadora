@@ -1,7 +1,6 @@
 export function operacoes(input) {
   input = mudaCaracteres(input);
 
-  
   while (/[(\u221A\u005E%]/.test(input)) {
     if (/[(][\d\u221A\u005E%+*/e-]+[)]/.test(input)) {
       input = operacaoEntreParenteses(input);
@@ -14,9 +13,18 @@ export function operacoes(input) {
     }
   }
 
+  if (input !== "error") {
+    input = `${avaliarExpressao(input)}`;
+    input = input.replace(/[.]/, ",");
+    console.log(input);
+    return input;
+  } else {
+    return "error";
+  }
+  /* 
   input = `${avaliarExpressao(input)}`;
   input = input.replace(/[.]/, ",");
-  return input;
+  return input; */
 }
 function mudaCaracteres(params) {
   let valor = "";
@@ -53,19 +61,19 @@ function avaliarExpressao(params) {
   */
 function potenciacao(input) {
   let regex = new RegExp(
-    /([\d]+(?:[.][\de+]+)?)(?:\u005E)([-]?[\d]+(?:[.][\de+]+)?)?/
+    /([\d]+(?:[.][\de+]+)?)(?:\u005E)([-]?[\d]+(?:[.][\de+]+)?)/
   );
   let regex2 = new RegExp(
-    /([\d]+(?:[.][\de+]+)?)(\u005E)([-]?[\d]+(?:[.][\de+]+)?)?/
+    /([\d]+(?:[.][\de+]+)?)(\u005E)([-]?[\d]+(?:[.][\de+]+)?)/
   );
   let captura = input.toString(10).match(regex);
 
-  if (captura) {
+  if (captura[0]) {
     let a = Number(captura[1]);
     let b = Number(captura[2]);
     let resultado = Math.pow(a, b);
 
-    return input.replace(regex2, `${resultado}`);
+    return input.replace(captura[0], `${resultado}`);
   } else {
     return "error";
   }
@@ -74,14 +82,15 @@ function porcentagem(input) {
   let regex = new RegExp(
     /([\d]+(?:[.][\de+]+)?)(?:[%])([\d]+(?:[.][\de+]+)?)?/
   );
-  let regex2 = new RegExp(/([\d]+(?:[.][\de+]+)?)([%])([\d]+(?:[.][\de+]+)?)?/);
-  let captura = input.toString(10).match(regex);
-  if (captura) {
+  let valida = captura[1] + '%' + captura[2]
+ let captura = input.toString(10).match(regex);
+
+  if (valida) {
     let a = Number(captura[1]);
     let b = Number(captura[2]);
     let resultado = captura[2] ? (a * b) / 100 : a / 100;
 
-    return input.replace(regex2, `${resultado}`);
+    return input.replace(valida, `${resultado}`);
   } else {
     return "error";
   }
@@ -89,17 +98,17 @@ function porcentagem(input) {
 
 function radiciacao(input) {
   let regex1 = new RegExp(/([)\d]+)?(?:\u221A)([\d]+(?:[.][\de+]+)?)/);
-  let regex2 = new RegExp(/(\u221A)([\d]+(?:[.][\de+]+)?)/g);
-
   let captura = input.toString().match(regex1);
+  
+  let valida = `\u221A${captura[2]}`
 
-  if (captura) {
+  if (valida) {
     let resultado = Math.sqrt(captura[2]);
 
     if (captura[1]) {
-      return input.replace(regex2, `*${resultado}`);
+      return input.replace(valida, `*${resultado}`);
     } else {
-      return input.replace(regex2, `${resultado}`);
+      return input.replace(valida, `${resultado}`);
     }
   } else {
     return "error";
@@ -110,33 +119,37 @@ function operacaoEntreParenteses(input) {
   let regex1 = new RegExp(
     /([\d)]+)?(?:[(])([-+/*\d\u221A\u005E%]+)(?:[)])([\d(]+)?/
   );
-  let regex2 = new RegExp(/[(][-+/*\d\u221A\u005E%]+[)]/);
-
   let captura = input.match(regex1);
+  
+  let valida = `(${captura[2]})`
 
-  if (captura) {
+  if (valida) {
     let resultado = captura[2];
     while (/[\u221A\u005E%]/.test(resultado)) {
       if (/[\u221A]/.test(resultado)) {
         resultado = radiciacao(resultado);
-      } else if (/[\u005]/.test(resultado)) {
+      } else if (/[\u005E]/.test(resultado)) {
         resultado = potenciacao(resultado);
       } else if (/[%]/.test(resultado)) {
         resultado = porcentagem(resultado);
       }
     }
 
-    resultado = `${avaliarExpressao(resultado)}`;
+    if (resultado !== "error") {
+      resultado = `${avaliarExpressao(resultado)}`;
 
-    if (captura[1] && captura[3]) {
-      return input.replace(regex2, `*${resultado}*`);
-    } else if (captura[1]) {
-      console.log(input);
-      return input.replace(regex2, `*${resultado}`);
-    } else if (captura[3]) {
-      return input.replace(regex2, `${resultado}*`);
+      if (captura[1] && captura[3]) {
+        return input.replace(valida, `*${resultado}*`);
+      } else if (captura[1]) {
+        console.log(input);
+        return input.replace(valida, `*${resultado}`);
+      } else if (captura[3]) {
+        return input.replace(valida, `${resultado}*`);
+      } else {
+        return input.replace(valida, `${resultado}`);
+      }
     } else {
-      return input.replace(regex2, `${resultado}`);
+      return "error";
     }
   } else {
     return "error";

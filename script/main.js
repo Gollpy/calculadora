@@ -13,8 +13,10 @@ const entrada = document.getElementById("entrada");
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
 
+/* =============================================== */
+
 entrada.addEventListener("keydown", (event) => {
-  const valorAnteriorStr = event.target.value;
+  let expressaoInput = `${entrada.value}`;
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
   var lengthAnterior = entrada.value.length;
@@ -37,13 +39,19 @@ entrada.addEventListener("keydown", (event) => {
   } else if (event.key === "Dead") {
     adicionarCaractere(entrada, caractere.potencia);
   } else if (event.key === "Enter") {
-    let resultado = entrada.value
-      ? adicionarPontoCentena(operacoes(entrada.value))
-      : null;
-    entrada.value = resultado;
-
-    if (resultado) {
-      addAoHistorico(historico, valorAnteriorStr, resultado);
+    try {
+      var resultado = adicionarPontoCentena(operacoes(entrada.value));
+    if (entrada.value && entrada.value !== resultado) {
+      entrada.value = resultado;
+      historico.innerHTML += addAoHistorico(expressaoInput, resultado);
+      entrada.setSelectionRange(-1, -1);
+      PPB_A = -1;
+    } else {
+      entrada.value = entrada.value;
+    }
+    } catch (error) {
+       // uma mensagem deverar ser exibida na calculadora
+       console.log('erro de sintaxe');
     }
   } else if (event.key === "Backspace") {
     // desabilita as ações das teclas, impedindo que "Backspace" apague um caractere a mais
@@ -58,14 +66,19 @@ entrada.addEventListener("keydown", (event) => {
     } else {
       apagarCaractere(entrada, 1);
     }
+  } else if (event.key === ",") {
+    event.preventDefault();
+    adicionarCaractere(entrada, event.key);
   }
 
-  if (valorAnteriorStr !== entrada.value) {
+  if (expressaoInput !== entrada.value) {
     entrada.value = adicionarPontoCentena(entrada.value);
     lengthPosterior = entrada.value.length;
     retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
   }
 });
+
+/* =============================================== */
 
 entrada.addEventListener("input", (event) => {
   var alvo = event.target;
@@ -79,6 +92,8 @@ entrada.addEventListener("input", (event) => {
   lengthPosterior = entrada.value.length;
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
+
+/* =============================================== */
 
 botoes.addEventListener("click", (event) => {
   const expressaoInput = entrada.value;
@@ -128,14 +143,20 @@ botoes.addEventListener("click", (event) => {
 
         break;
       case "igual":
-        let resultado = entrada.value ? operacoes(entrada.value) : null;
-        entrada.value = resultado;
-        PPB_A = 0;
-
-        if (resultado) {
-          historico.innerHTML += addAoHistorico(expressaoInput, resultado);
+        try {
+          var resultado = adicionarPontoCentena(operacoes(entrada.value));
+          if (entrada.value && entrada.value !== resultado) {
+            entrada.value = resultado;
+            historico.innerHTML += addAoHistorico(expressaoInput, resultado);
+            entrada.setSelectionRange(-1, -1);
+            PPB_A = -1;
+          } else {
+            entrada.value = entrada.value;
+          }
+        } catch (error) {
+          // uma mensagem deverar ser exibida na calculadora
+          console.log('erro de sintaxe');
         }
-
         break;
       case "alterar_sinal":
         entrada.value = inverterSinal(PPB_A, entrada.value);
@@ -158,21 +179,27 @@ botoes.addEventListener("click", (event) => {
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 });
 
-historico.addEventListener("click", async (event) => {
+/* =============================================== */
+
+historico.addEventListener("click", (event) => {
   const alvo = event.target;
 
   switch (alvo.classList[0]) {
     case "addResultado":
       entrada.value += alvo.value;
-    break;
+      break;
     case "copiarResultado":
       var texto = alvo.value;
-      try {
-        await navigator.clipboard.writeText(texto);
-      } catch (err) {
-        console.error("Erro ao copiar o resultado: ", err);
-      }
-    break;
+      navigator.clipboard
+        .writeText(texto)
+        .then(() => {
+          /* função a ser executada */
+          /* uma mensagem "Copiado!" é exibida na localização do ponteiro do mouse*/
+        })
+        .catch((err) => {
+          console.error("Erro ao copiar o resultado: ", err);
+        });
+      break;
   }
 
   if (alvo.classList[0] === "addResultado") {

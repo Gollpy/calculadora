@@ -12,9 +12,9 @@ export function retornaPosicaoDaBarra(alvo, posicao, avancar) {
 
 export function removerCaracterNaoPermitidos(input) {
   const regex = new RegExp(/[0-9\u00D7\u00F7+^√%,().e-]/g);
-if (/[e]{2,9}/.test(input)) {
-  input = input.replace(/[e]{2,9}/,'e');
-}
+  if (/[e]{2,9}/.test(input)) {
+    input = input.replace(/[e]{2,9}/, "e");
+  }
   if (regex.test(input)) {
     return input.match(regex).join("");
   } else {
@@ -66,19 +66,25 @@ export function adicionarCaractere(input, character) {
         character = "";
       }
       input.value = parte1 + character + parte2;
-      break;u221A
-    case /[\u00D7\u221A\u00F7^+%-]/.test(character):
-      if (/[(\u221A][-]?$/.test(parte1) && !['-', '\u221A'].includes(character)/*  != "-" || character != "\u221A" */) {
+      break;
+    case ["\u00D7", "\u221A", "\u00F7", "^", "+", "%", "-"].includes(character):
+      if (
+        /[(\u221A][-]?$/.test(parte1) &&
+        !["-", "\u221A"].includes(character)
+      ) { 
         character = "";
       } else if (/[\u00F7^\u00D7]$/.test(parte1) && character === "-") {
         null;
       } else if (
         /[\u00F7^\u00D7+][-]$/.test(parte1) &&
-        /[\u00F7^\u00D7+]/.test(character)
+        ["\u00F7", "^", "\u00D7", "+"].includes(character)
       ) {
         character = "";
         parte1 = parte1.slice(0, -1);
-      } else if (/[-+\u00F7^\u00D7+]$/.test(parte1)) {
+      } else if (
+        /[-+^\u00F7\u00D7]$/.test(parte1) &&
+        ["-", "+", "^", "\u00F7", "\u00D7"].includes(character)
+      ) {
         parte1 = parte1.slice(0, -1);
       }
       input.value = parte1 + character + parte2;
@@ -87,7 +93,6 @@ export function adicionarCaractere(input, character) {
 }
 
 /*<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<- */
-
 
 export function apagarCaractere(input, avancar) {
   avancar ? (avancar = Number(avancar)) : (avancar = 1);
@@ -125,9 +130,11 @@ export function inverterSinal(posicao, str) {
 }
 
 function processarCasosEspeciais(captura) {
-  const casoEspecial = new RegExp(/[\u221A\u005E\u0025\u00D7\u00F7]/)
-  console.log(captura);
-  const ultimoCaractere = captura[1] != null? captura[1].substring(captura[1].length - 1): captura[1] = ''
+  const casoEspecial = new RegExp(/[\u221A\u005E\u0025\u00D7\u00F7]/);
+  const ultimoCaractere =
+    captura[1] != null
+      ? captura[1].substring(captura[1].length - 1)
+      : (captura[1] = "");
   if (casoEspecial.test(ultimoCaractere)) {
     if (!captura[2]) {
       return captura[1] + "-" + captura[3];
