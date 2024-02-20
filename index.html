@@ -3,28 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/mensagemError.css" />
     <title>calculadora</title>
     <style>
       #entrada {
         text-align: end;
       }
-      .botao{
+      .botao {
         font-family: Arial, sans-serif;
       }
-
     </style>
   </head>
 
   <body>
     <div>
-      <ul id="historico">
-        
-      </ul>
-      <input type="text" id="entrada" ma>
+      <div id="MsgError">
+        <p style="">erro de sintaxe</p>
+      </div>
+      <ul id="historico"></ul>
+      <input type="text" id="entrada" ma />
       <!--
         proximo passo: 
         add mensagens de erros
-      --> 
+      -->
       <div id="botoes">
         <button class="botao car car__zero" value="0">0</button>
         <button class="botao car car__um" value="1">1</button>
@@ -60,7 +61,7 @@
         <button class="botao apagar">←x</button>
       </div>
     </div>
-    
+
     <script type="module" src="./script/main.js"></script>
     <script type="module" src="./script/erros.js"></script>
   </body>
