@@ -51,7 +51,7 @@ entrada.addEventListener("keydown", (event) => {
     }
     } catch (error) {
        // uma mensagem deverar ser exibida na calculadora
-       console.log('erro de sintaxe');
+       console.log('erro de sintaxe',error);
     }
   } else if (event.key === "Backspace") {
     // desabilita as ações das teclas, impedindo que "Backspace" apague um caractere a mais

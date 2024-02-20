@@ -2,7 +2,7 @@ export function operacoes(input) {
   input = mudaCaracteres(input);
 
   while (/[(\u221A\u005E%]/.test(input)) {
-    if (/[(][\d\u221A\u005E%+*/e-]+[)]/.test(input)) {
+    if (/[(][\d\u221A\u005E%+*/e-]+[)]?/.test(input)) {
       input = operacaoEntreParenteses(input);
     } else if (/[\u221A]/.test(input)) {
       input = radiciacao(input);
@@ -45,9 +45,10 @@ function avaliarExpressao(params) {
   /[-]{2}|[+]{2}|[+][-]|[-][+]/g.test(params)
     ? (params = regraDeSinais(params))
     : null;
-  let a = new Function("return " + params);
+    let a = new Function("return " + params);
   let b = a();
   return b;
+
 }
 
 //========== funções matemáticas =============
@@ -80,15 +81,15 @@ function potenciacao(input) {
 }
 function porcentagem(input) {
   let regex = new RegExp(
-    /([\d]+(?:[.][\de+]+)?)(?:[%])([\d]+(?:[.][\de+]+)?)?/
+    /([\d]+(?:[.][\de+]+)?)([%])([\d]+(?:[.][\de+]+)?)?/
   );
-  let valida = captura[1] + '%' + captura[2]
- let captura = input.toString(10).match(regex);
+  let captura = input.toString(10).match(regex);
+  let valida = captura[1] + captura[2] + captura[3]
 
   if (valida) {
     let a = Number(captura[1]);
-    let b = Number(captura[2]);
-    let resultado = captura[2] ? (a * b) / 100 : a / 100;
+    let b = Number(captura[3]);
+    let resultado = captura[3] ? (a * b) / 100 : a / 100;
 
     return input.replace(valida, `${resultado}`);
   } else {
@@ -117,14 +118,14 @@ function radiciacao(input) {
 
 function operacaoEntreParenteses(input) {
   let regex1 = new RegExp(
-    /([\d)]+)?(?:[(])([-+/*\d\u221A\u005E%]+)(?:[)])([\d(]+)?/
+    /([\d)]+)?([(])([-+/*\d\u221A\u005E%]+)([)]?)([\d(]+)?/
   );
   let captura = input.match(regex1);
   
-  let valida = `(${captura[2]})`
+  let valida = captura[2] + captura[3] + captura[4]
 
   if (valida) {
-    let resultado = captura[2];
+    let resultado = captura[3];
     while (/[\u221A\u005E%]/.test(resultado)) {
       if (/[\u221A]/.test(resultado)) {
         resultado = radiciacao(resultado);
@@ -138,12 +139,12 @@ function operacaoEntreParenteses(input) {
     if (resultado !== "error") {
       resultado = `${avaliarExpressao(resultado)}`;
 
-      if (captura[1] && captura[3]) {
+      if (captura[1] && captura[5]) {
         return input.replace(valida, `*${resultado}*`);
       } else if (captura[1]) {
         console.log(input);
         return input.replace(valida, `*${resultado}`);
-      } else if (captura[3]) {
+      } else if (captura[5]) {
         return input.replace(valida, `${resultado}*`);
       } else {
         return input.replace(valida, `${resultado}`);

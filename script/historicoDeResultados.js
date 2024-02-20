@@ -1,5 +1,5 @@
 export function addAoHistorico(expressao, resultado) {
-  return `
+  return (`
     <li>
         <div>
             <p>${expressao} =</p>
@@ -11,5 +11,5 @@ export function addAoHistorico(expressao, resultado) {
             <button class="copiarResultado" value="${resultado}">copiar</button>
             <button class="addResultado" value="${resultado}">add</button>
         </div>
-    </li>`;
+    </li>`);
 }

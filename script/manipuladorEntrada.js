@@ -71,7 +71,7 @@ export function adicionarCaractere(input, character) {
       if (
         /[(\u221A][-]?$/.test(parte1) &&
         !["-", "\u221A"].includes(character)
-      ) { 
+      ) {
         character = "";
       } else if (/[\u00F7^\u00D7]$/.test(parte1) && character === "-") {
         null;
