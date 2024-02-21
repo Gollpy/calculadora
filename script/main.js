@@ -1,3 +1,4 @@
+import { mensagemDeErro } from "./mensagemError.js";
 import { operacoes } from "./funcoesMatematicas.js";
 import { addAoHistorico } from "./historicoDeResultados.js";
 import {
@@ -12,6 +13,7 @@ import {
 const entrada = document.getElementById("entrada");
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
+const MsgError = document.getElementById("MsgError");
 
 /* =============================================== */
 
@@ -39,19 +41,18 @@ entrada.addEventListener("keydown", (event) => {
   } else if (event.key === "Dead") {
     adicionarCaractere(entrada, caractere.potencia);
   } else if (event.key === "Enter") {
-    try {
+    if (operacoes(entrada.value) !== "error") {
       var resultado = adicionarPontoCentena(operacoes(entrada.value));
-    if (entrada.value && entrada.value !== resultado) {
-      entrada.value = resultado;
-      historico.innerHTML += addAoHistorico(expressaoInput, resultado);
-      entrada.setSelectionRange(-1, -1);
-      PPB_A = -1;
+      if (entrada.value && entrada.value !== resultado) {
+        entrada.value = resultado;
+        historico.innerHTML += addAoHistorico(expressaoInput, resultado);
+        entrada.setSelectionRange(-1, -1);
+        PPB_A = -1;
+      } else {
+        entrada.value = entrada.value;
+      }
     } else {
-      entrada.value = entrada.value;
-    }
-    } catch (error) {
-       // uma mensagem deverar ser exibida na calculadora
-       console.log('erro de sintaxe',error);
+      mensagemDeErro(MsgError);
     }
   } else if (event.key === "Backspace") {
     // desabilita as ações das teclas, impedindo que "Backspace" apague um caractere a mais
@@ -143,7 +144,7 @@ botoes.addEventListener("click", (event) => {
 
         break;
       case "igual":
-        try {
+        if (operacoes(entrada.value) !== "error") {
           var resultado = adicionarPontoCentena(operacoes(entrada.value));
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
@@ -153,10 +154,15 @@ botoes.addEventListener("click", (event) => {
           } else {
             entrada.value = entrada.value;
           }
-        } catch (error) {
-          // uma mensagem deverar ser exibida na calculadora
-          console.log('erro de sintaxe');
+        } else {
+          mensagemDeErro(MsgError);
         }
+
+        /* if (calidar() === "error") {
+            mensagemDeErro(MsgError);
+          }
+         */
+
         break;
       case "alterar_sinal":
         entrada.value = inverterSinal(PPB_A, entrada.value);

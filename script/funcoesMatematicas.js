@@ -14,9 +14,12 @@ export function operacoes(input) {
   }
 
   if (input !== "error") {
-    input = `${avaliarExpressao(input)}`;
-    input = input.replace(/[.]/, ",");
-    console.log(input);
+    if (`${avaliarExpressao(input)}` !== "error") {
+      input = `${avaliarExpressao(input)}`;
+      input = input.replace(/[.]/, ",");
+    } else {
+      return "error";
+    }
     return input;
   } else {
     return "error";
@@ -42,13 +45,16 @@ function regraDeSinais(params) {
 }
 
 function avaliarExpressao(params) {
-  /[-]{2}|[+]{2}|[+][-]|[-][+]/g.test(params)
-    ? (params = regraDeSinais(params))
-    : null;
+  try {
+    /[-]{2}|[+]{2}|[+][-]|[-][+]/g.test(params)
+      ? (params = regraDeSinais(params))
+      : null;
     let a = new Function("return " + params);
-  let b = a();
-  return b;
-
+    let b = a();
+    return b;
+  } catch (error) {
+    return "error";
+  }
 }
 
 //========== funções matemáticas =============
@@ -68,25 +74,23 @@ function potenciacao(input) {
     /([\d]+(?:[.][\de+]+)?)(\u005E)([-]?[\d]+(?:[.][\de+]+)?)/
   );
   let captura = input.toString(10).match(regex);
-
-  if (captura[0]) {
+  if (captura) {
     let a = Number(captura[1]);
     let b = Number(captura[2]);
     let resultado = Math.pow(a, b);
-
     return input.replace(captura[0], `${resultado}`);
   } else {
     return "error";
   }
 }
-function porcentagem(input) {
-  let regex = new RegExp(
-    /([\d]+(?:[.][\de+]+)?)([%])([\d]+(?:[.][\de+]+)?)?/
-  );
-  let captura = input.toString(10).match(regex);
-  let valida = captura[1] + captura[2] + captura[3]
 
-  if (valida) {
+function porcentagem(input) {
+  let regex = new RegExp(/([\d]+(?:[.][\de+]+)?)([%])([\d]+(?:[.][\de+]+)?)?/);
+  let captura = input.toString(10).match(regex);
+
+  if (captura) {
+    let captura_3 = captura[3]?captura[3]: '' 
+    let valida = captura[1] + captura[2] + captura_3;
     let a = Number(captura[1]);
     let b = Number(captura[3]);
     let resultado = captura[3] ? (a * b) / 100 : a / 100;
@@ -100,10 +104,9 @@ function porcentagem(input) {
 function radiciacao(input) {
   let regex1 = new RegExp(/([)\d]+)?(?:\u221A)([\d]+(?:[.][\de+]+)?)/);
   let captura = input.toString().match(regex1);
-  
-  let valida = `\u221A${captura[2]}`
 
-  if (valida) {
+  if (captura) {
+    let valida = `\u221A${captura[2]}`;
     let resultado = Math.sqrt(captura[2]);
 
     if (captura[1]) {
@@ -115,16 +118,14 @@ function radiciacao(input) {
     return "error";
   }
 }
-
 function operacaoEntreParenteses(input) {
   let regex1 = new RegExp(
     /([\d)]+)?([(])([-+/*\d\u221A\u005E%]+)([)]?)([\d(]+)?/
   );
   let captura = input.match(regex1);
-  
-  let valida = captura[2] + captura[3] + captura[4]
 
-  if (valida) {
+  if (captura) {
+    let valida = captura[2] + captura[3] + captura[4];
     let resultado = captura[3];
     while (/[\u221A\u005E%]/.test(resultado)) {
       if (/[\u221A]/.test(resultado)) {
