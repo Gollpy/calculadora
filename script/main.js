@@ -45,7 +45,7 @@ entrada.addEventListener("keydown", (event) => {
       var resultado = adicionarPontoCentena(operacoes(entrada.value));
       if (entrada.value && entrada.value !== resultado) {
         entrada.value = resultado;
-        historico.innerHTML += addAoHistorico(expressaoInput, resultado);
+        historico.querySelector("#listaDeResultados").innerHTML += addAoHistorico(expressaoInput, resultado);
         entrada.setSelectionRange(-1, -1);
         PPB_A = -1;
       } else {
@@ -148,7 +148,7 @@ botoes.addEventListener("click", (event) => {
           var resultado = adicionarPontoCentena(operacoes(entrada.value));
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
-            historico.innerHTML += addAoHistorico(expressaoInput, resultado);
+            historico.querySelector("#listaDeResultados").innerHTML += addAoHistorico(expressaoInput, resultado);
             entrada.setSelectionRange(-1, -1);
             PPB_A = -1;
           } else {

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style/mensagemError.css" />
+    <link rel="stylesheet" href="./style/historico.css" />
+
     <title>calculadora</title>
     <style>
       #entrada {
@@ -14,20 +16,88 @@
       }
     </style>
   </head>
+<!-- 
 
-  <body>
+  agora é so dar forma pro esquema 
+
+ -->
+  <body style="margin-top: 100px">
     <div>
-        <div class="MsgErrorOff" id="MsgError">
-          <p style="">erro de sintaxe</p>
+      <div class="MsgErrorOff" id="MsgError">
+        <p style="">erro de sintaxe</p>
+      </div>
+      <div id="historico">
+        <ul id="listaDeResultados">
+          <li>
+            <div>
+              <p>${expressao} =</p>
+              <button class="copiarResultado" value="${expressao}">
+                copiar
+              </button>
+              <button class="addResultado" value="${expressao}">add</button>
+            </div>
+            <div>
+              <p>${resultado}</p>
+              <button class="copiarResultado" value="${resultado}">
+                copiar
+              </button>
+              <button class="addResultado" value="${resultado}">add</button>
+            </div>
+          </li>
+          <li>
+            <div>
+              <p>${expressao} =</p>
+              <button class="copiarResultado" value="${expressao}">
+                copiar
+              </button>
+              <button class="addResultado" value="${expressao}">add</button>
+            </div>
+            <div>
+              <p>${resultado}</p>
+              <button class="copiarResultado" value="${resultado}">
+                copiar
+              </button>
+              <button class="addResultado" value="${resultado}">add</button>
+            </div>
+          </li>
+          <li>
+            <div>
+              <p>${expressao} =</p>
+              <button class="copiarResultado" value="${expressao}">
+                copiar
+              </button>
+              <button class="addResultado" value="${expressao}">add</button>
+            </div>
+            <div>
+              <p>${resultado}</p>
+              <button class="copiarResultado" value="${resultado}">
+                copiar
+              </button>
+              <button class="addResultado" value="${resultado}">add</button>
+            </div>
+          </li>
+          <li>
+            <div>
+              <p>${expressao} =</p>
+              <button class="copiarResultado" value="${expressao}">
+                copiar
+              </button>
+              <button class="addResultado" value="${expressao}">add</button>
+            </div>
+            <div>
+              <p>${resultado}</p>
+              <button class="copiarResultado" value="${resultado}">
+                copiar
+              </button>
+              <button class="addResultado" value="${resultado}">add</button>
+            </div>
+          </li>
+        </ul>
+        <div class="dropBar">Histórico</div>
       </div>
 
-      <ul id="historico"></ul>
+      <input type="text" id="entrada" />
 
-      <input type="text" id="entrada" ma />
-      <!--
-        proximo passo: 
-        add mensagens de erros
-      -->
       <div id="botoes">
         <button class="botao car car__zero" value="0">0</button>
         <button class="botao car car__um" value="1">1</button>

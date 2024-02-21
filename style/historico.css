@@ -1,0 +1,39 @@
+#historico {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropBar {
+  /* width: 100%; */
+  display: flex;
+  background-color: #e7e7e7;
+  align-items: center;
+  justify-content: center;
+  box-shadow: -2px -3px 0px 0px rgb(171 171 171),
+    2px 2px 0px 0px rgb(117 117 117);
+  /* box-shadow: 2 #a8a8a8; */
+}
+
+#listaDeResultados {
+}
+/* ======================= */
+#listaDeResultados li {
+  display: flex;
+}
+
+#listaDeResultados li:nth-child(odd) {
+  background-color: rgb(129, 129, 129);
+}
+
+#listaDeResultados li:nth-child(even) {
+  background-color: rgb(63, 63, 63);
+}
+/* ======================= */
+#listaDeResultados li div {
+}
+
+#listaDeResultados li div p {
+}
+
+#listaDeResultados li div button {
+}
