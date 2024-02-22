@@ -1,5 +1,6 @@
 #historico {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 }
 
@@ -18,7 +19,10 @@
 }
 /* ======================= */
 #listaDeResultados li {
-  display: flex;
+      /* height: 102px; */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end
 }
 
 #listaDeResultados li:nth-child(odd) {
@@ -30,10 +34,18 @@
 }
 /* ======================= */
 #listaDeResultados li div {
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 }
 
-#listaDeResultados li div p {
+#listaDeResultados li div p,button {
+  display: flex;
+  align-items: center;
 }
+
 
 #listaDeResultados li div button {
+
 }
