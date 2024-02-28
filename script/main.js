@@ -13,12 +13,12 @@ import {
 const entrada = document.getElementById("entrada");
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
-const MsgError = document.getElementById("MsgError");
+const MsgError = document.getElementById("msg-error");
 
 /* =============================================== */
 
 entrada.addEventListener("keydown", (event) => {
-  let expressaoInput = `${entrada.value}`;
+  const expressaoInput = `${entrada.value}`;
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
   var lengthAnterior = entrada.value.length;
@@ -45,7 +45,7 @@ entrada.addEventListener("keydown", (event) => {
       var resultado = adicionarPontoCentena(operacoes(entrada.value));
       if (entrada.value && entrada.value !== resultado) {
         entrada.value = resultado;
-        historico.querySelector("#listaDeResultados").innerHTML += addAoHistorico(expressaoInput, resultado);
+        historico.querySelector("#lista-de-resultados").innerHTML += addAoHistorico(expressaoInput, resultado);
         entrada.setSelectionRange(-1, -1);
         PPB_A = -1;
       } else {
@@ -98,7 +98,7 @@ entrada.addEventListener("input", (event) => {
 
 botoes.addEventListener("click", (event) => {
   const expressaoInput = entrada.value;
-  const alvo = event.target;
+  const alvo = event.target.closest('.botao');
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
   //captura o comprimento da string antes de ser add novos caractere
@@ -113,10 +113,7 @@ botoes.addEventListener("click", (event) => {
       case "car":
         adicionarCaractere(entrada, novoCaractere);
         break;
-      case "car_operador":
-        adicionarCaractere(entrada, novoCaractere);
-        break;
-      case "limpar_tudo":
+      case "apagar-tudo":
         entrada.value = "";
         break;
       case "apagar":
@@ -148,7 +145,7 @@ botoes.addEventListener("click", (event) => {
           var resultado = adicionarPontoCentena(operacoes(entrada.value));
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
-            historico.querySelector("#listaDeResultados").innerHTML += addAoHistorico(expressaoInput, resultado);
+            historico.querySelector("#lista-de-resultados").innerHTML += addAoHistorico(expressaoInput, resultado);
             entrada.setSelectionRange(-1, -1);
             PPB_A = -1;
           } else {
@@ -164,7 +161,7 @@ botoes.addEventListener("click", (event) => {
          */
 
         break;
-      case "alterar_sinal":
+      case "inverter-sinal":
         entrada.value = inverterSinal(PPB_A, entrada.value);
         break;
     }
@@ -190,25 +187,29 @@ botoes.addEventListener("click", (event) => {
 historico.addEventListener("click", (event) => {
   const alvo = event.target;
 
-  switch (alvo.classList[0]) {
-    case "addResultado":
-      entrada.value += alvo.value;
-      break;
-    case "copiarResultado":
-      var texto = alvo.value;
-      navigator.clipboard
-        .writeText(texto)
-        .then(() => {
-          /* função a ser executada */
-          /* uma mensagem "Copiado!" é exibida na localização do ponteiro do mouse*/
-        })
-        .catch((err) => {
-          console.error("Erro ao copiar o resultado: ", err);
-        });
-      break;
-  }
+  const classes = [...alvo.classList]
+  classes.map((item) => {
+    switch (item) {
+      case "add-resultado":
+        entrada.value += alvo.value;
+        entrada.value = adicionarPontoCentena(entrada.value);
+        break;
+      case "cop-resultado":
+        var texto = alvo.value;
+        navigator.clipboard
+          .writeText(texto)
+          .then(() => {
+            /* função a ser executada */
+            /* uma mensagem "Copiado!" é exibida na localização do ponteiro do mouse*/
+          })
+          .catch((err) => {
+            console.error("Erro ao copiar: ", err);
+          });
+        break;
+    }
+  })
 
-  if (alvo.classList[0] === "addResultado") {
+  /* if (alvo.classList[0] === "add-resultado") {
     entrada.value = adicionarPontoCentena(entrada.value);
-  }
+  } */
 });

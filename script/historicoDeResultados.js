@@ -1,15 +1,19 @@
 export function addAoHistorico(expressao, resultado) {
-  return (`
-    <li>
-        <div>
-            <p>${expressao} =</p>
-            <button class="copiarResultado" value="${expressao}">copiar</button>
-            <button class="addResultado" value="${expressao}">add</button>
+  return `
+    <li class="historico__item">
+        <div class="historico__container">
+            <p class="historico__resul">${expressao} =</p>
+            <div class="historico__container">
+                <button class="historico__cop-resultado" value="${expressao}">copiar</button>
+                <button class="historico__add-resultado" value="${expressao}">add</button>
+            </div>
         </div>
-        <div>
-            <p>${resultado}</p>
-            <button class="copiarResultado" value="${resultado}">copiar</button>
-            <button class="addResultado" value="${resultado}">add</button>
+        <div class="historico__container">
+            <p class="historico__resul">${resultado} =</p>
+            <div class="historico__container">
+                <button class="historico__cop-resultado" value="${resultado}">copiar</button>
+                <button class="historico__add-resultado" value="${resultado}">add</button>
+            </div>
         </div>
-    </li>`);
+    </li>`;
 }

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/main.css" />
     <link rel="stylesheet" href="./style/mensagemError.css" />
     <link rel="stylesheet" href="./style/historico.css" />
 
@@ -18,135 +19,318 @@
   </head>
   <!-- 
 
-  agora é so dar forma pro esquema 
-
+  agora é so dar forma pro esquema.
+  *recursos do histórico*
+  - ao clicar em um valor no histórico ele sera adicionado a entrada
+  - click nos três postos para copiar um dos valores(expre../resul..) no histórico
  -->
   <body style="margin-top: 100px">
-    <div>
-      <div class="MsgErrorOff" id="MsgError">
-        <p style="">erro de sintaxe</p>
+    <div class="main">
+      <div class="msg-error msg-error--off" id="msg-error">
+        <p class="msg-error__text">erro de sintaxe</p>
       </div>
-      <div id="historico">
-        <ul id="listaDeResultados">
-          <li>
-            <div>
-              <p>${expressao} =</p>
-              <div>
-                <button class="copiarResultado" value="${expressao}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${expressao}">add</button>
-              </div>
+      <div class="historico" id="historico">
+        <div class="historico__drop-bar">
+          <svg
+            class="historico__icon-history icon-history"
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+          >
+            <path
+              xmlns="http://www.w3.org/2000/svg"
+              d="M476.704-92Q318.666-92 207.03-200.618 95.394-309.236 91.667-467.334h104.999q5.768 113.867 85.837 192.267 80.069 78.401 194.164 78.401 118.666 0 202-83.548Q762-363.761 762-483.214 762-600.667 678.418-682q-83.582-81.334-201.751-81.334-59 0-112 24.167t-93.001 66.833H355v81H113.334V-831h78.999v89.667q55.334-60 128.5-93.667Q394-868.667 476.667-868.667 557-868.667 628-838t124.327 83.174q53.327 52.507 83.833 122.833 30.507 70.326 30.507 150.66 0 80.333-30.507 151.326-30.506 70.992-83.833 123.833Q699-153.333 628-122.667 557-92 476.704-92ZM595-308.667l-153.333-152V-682h78.999v187.333L652.333-366 595-308.667Z"
+            />
+          </svg>
+          <span class="historico__drop-bar__text">Historico</span>
+        </div>
+        <ul class="historico__lista" id="lista-de-resultados">
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
             </div>
-            <div>
-              <p>${resultado}</p>
-              <div>
-                <button class="copiarResultado" value="${resultado}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${resultado}">add</button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>${expressao} =</p>
-              <div>
-                <button class="copiarResultado" value="${expressao}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${expressao}">add</button>
-              </div>
-            </div>
-            <div>
-              <p>${resultado}</p>
-              <div>
-                <button class="copiarResultado" value="${resultado}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${resultado}">add</button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>${expressao} =</p>
-              <div>
-                <button class="copiarResultado" value="${expressao}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${expressao}">add</button>
-              </div>
-            </div>
-            <div>
-              <p>${resultado}</p>
-              <div>
-                <button class="copiarResultado" value="${resultado}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${resultado}">add</button>
-              </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao1} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
             </div>
           </li>
-          <li>
-            <div>
-              <p>${expressao} =</p>
-              <div>
-                <button class="copiarResultado" value="${expressao}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${expressao}">add</button>
-              </div>
+          <!-- --------------- -->
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
             </div>
-            <div>
-              <p>${resultado}</p>
-              <div>
-                <button class="copiarResultado" value="${resultado}">
-                  copiar
-                </button>
-                <button class="addResultado" value="${resultado}">add</button>
-              </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao2} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao2} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao2} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao2} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <!-- xxxxxxxx -->
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao1} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao1} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao1} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
+            </div>
+          </li>
+          <li class="historico__item">
+            <svg
+              class="historico__icon-More-Horiz icon-More-Horiz"
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path
+                d="M209.425-385Q170-385 142-412.906T114-480q0-40 27.906-67.5T209-575q39.6 0 67.8 27.5 28.2 27.5 28.2 67T276.925-413q-28.075 28-67.5 28Zm271.075 0q-39.5 0-67.5-27.906T385-480q0-40 27.906-67.5T480-575q40 0 67.5 27.5t27.5 67q0 39.5-27.5 67.5t-67 28Zm270.783 0q-39.717 0-68-27.906T655-480q0-40 28.283-67.5t68-27.5Q791-575 818.5-547.5t27.5 67q0 39.5-27.5 67.5t-67.217 28Z"
+              />
+            </svg>
+            <div class="historico__botoes">
+              <button class="historico__botao copiar" data-valor="${expressao}">
+                copiar expressao
+              </button>
+              <button class="historico__botao copiar" data-valor="${resultado}">
+                copiar resultado
+              </button>
+            </div>
+            <div class="historico__valores">
+              <samp class="historico__texto">${expressao1} =</samp>
+              <samp class="historico__texto">${resultado} =</samp>
             </div>
           </li>
         </ul>
-        <div class="dropBar">Histórico</div>
+        <svg
+          class="historico__icon-expandir icon-expandir"
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          viewBox="0 -960 960 960"
+          width="24"
+        >
+          <path
+            d="M480-327.477 221.912-585.565 296-659.653l184 184 184-184 74.088 74.088L480-327.477Z"
+          />
+        </svg>
       </div>
-
-      <input type="text" id="entrada" />
-
+      <!-- <div class="entrada__container"> -->
+        <input class="entrada" type="text" id="entrada" />
+      <!-- </div> -->
       <div id="botoes">
-        <button class="botao car car__zero" value="0">0</button>
-        <button class="botao car car__um" value="1">1</button>
-        <button class="botao car car__dois" value="2">2</button>
-        <button class="botao car car__tres" value="3">3</button>
-        <button class="botao car car__quatro" value="4">4</button>
-        <button class="botao car car__cinco" value="5">5</button>
-        <button class="botao car car__seis" value="6">6</button>
-        <button class="botao car car__sete" value="7">7</button>
-        <button class="botao car car__oito" value="8">8</button>
-        <button class="botao car car__nove" value="9">9</button>
-        <button class="botao car_operador car__adiçao" value="+">+</button>
-        <button class="botao car_operador car__subtração" value="-">-</button>
-        <button class="botao car_operador car__multiplicação" value="&#x00D7;">
+        <button class="botao car car-zero" value="0">0</button>
+        <button class="botao car car-um" value="1">1</button>
+        <button class="botao car car-dois" value="2">2</button>
+        <button class="botao car car-tres" value="3">3</button>
+        <button class="botao car car-quatro" value="4">4</button>
+        <button class="botao car car-cinco" value="5">5</button>
+        <button class="botao car car-seis" value="6">6</button>
+        <button class="botao car car-sete" value="7">7</button>
+        <button class="botao car car-oito" value="8">8</button>
+        <button class="botao car car-nove" value="9">9</button>
+        <button class="botao car car-adiçao" value="+">+</button>
+        <button class="botao car car-subtração" value="-">-</button>
+        <button class="botao car car-multiplicação" value="&#x00D7;">
           &#x00D7;
         </button>
-        <button class="botao car_operador car__divisão" value="÷">÷</button>
-        <button class="botao car_operador car__potenciação" value="^">^</button>
-        <button class="botao car_operador car__radiciação" value="√">
-          &#x221A;
-        </button>
-        <button class="botao car_operador car__porcentagem" value="%">%</button>
-        <button class="botao car car__inserir_frações" value=",">,</button>
-        <button class="botao car car__inserir_abrir_parenteses" value="(">
+        <button class="botao car car-divisão" value="÷">÷</button>
+        <button class="botao car car-potenciação" value="^">^</button>
+        <button class="botao car car-radiciação" value="√">&#x221A;</button>
+        <button class="botao car car-porcentagem" value="%">%</button>
+        <button class="botao car car-inserir_frações" value=",">,</button>
+        <button class="botao car car-inserir_abrir_parenteses" value="(">
           (
         </button>
-        <button class="botao car car__inserir_fechar_parenteses" value=")">
+        <button class="botao car car-inserir_fechar_parenteses" value=")">
           )
         </button>
-        <button class="botao alterar_sinal">+/-</button>
+        <button class="botao inverter-sinal">+/-</button>
         <button class="botao igual">=</button>
-        <button class="botao limpar_tudo">AC</button>
-        <button class="botao apagar">←x</button>
+        <button class="botao apagar-tudo">AC</button>
+        <button class="botao apagar">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+          >
+            <path
+              d="M320.848-199.869 121.869-480l198.979-280.131h517.283v560.262H320.848Zm141.391-126.566 96.5-96.5 96.5 96.5 57.065-57.065-96.5-96.5 96.5-96.5-57.065-57.065-96.5 96.5-96.5-96.5-57.065 57.065 96.5 96.5-96.5 96.5 57.065 57.065Z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
 
