@@ -6,6 +6,7 @@ body{
 .main {
     height: min-content;
     max-height: 550px;
+    position: relative;
 
     width: 100%;
     min-width: 320px;
