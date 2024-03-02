@@ -10,6 +10,12 @@ import {
   inverterSinal,
 } from "./manipuladorEntrada.js";
 
+/* 
+
+revisar todos os eventos e aplicas as bos praticas
+
+*/
+const main = document.querySelector(".main");
 const entrada = document.getElementById("entrada");
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
@@ -19,7 +25,7 @@ const MsgError = document.getElementById("msg-error");
 
 entrada.addEventListener("keydown", (event) => {
   const expressaoInput = `${entrada.value}`;
-  var PPB_A = entrada.selectionStart;
+  var PPB_A = entrada.selectionStart; // <---- mudar o chamado para event.target
   var PPB_B = entrada.selectionEnd;
   var lengthAnterior = entrada.value.length;
   var lengthPosterior;
@@ -45,7 +51,8 @@ entrada.addEventListener("keydown", (event) => {
       var resultado = adicionarPontoCentena(operacoes(entrada.value));
       if (entrada.value && entrada.value !== resultado) {
         entrada.value = resultado;
-        historico.querySelector("#lista-de-resultados").innerHTML += addAoHistorico(expressaoInput, resultado);
+        historico.querySelector("#lista-de-resultados").innerHTML +=
+          addAoHistorico(expressaoInput, resultado);
         entrada.setSelectionRange(-1, -1);
         PPB_A = -1;
       } else {
@@ -98,7 +105,7 @@ entrada.addEventListener("input", (event) => {
 
 botoes.addEventListener("click", (event) => {
   const expressaoInput = entrada.value;
-  const alvo = event.target.closest('.botao');
+  const alvo = event.target.closest(".botao");
   var PPB_A = entrada.selectionStart;
   var PPB_B = entrada.selectionEnd;
   //captura o comprimento da string antes de ser add novos caractere
@@ -145,7 +152,8 @@ botoes.addEventListener("click", (event) => {
           var resultado = adicionarPontoCentena(operacoes(entrada.value));
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
-            historico.querySelector("#lista-de-resultados").innerHTML += addAoHistorico(expressaoInput, resultado);
+            historico.querySelector("#lista-de-resultados").innerHTML +=
+              addAoHistorico(expressaoInput, resultado);
             entrada.setSelectionRange(-1, -1);
             PPB_A = -1;
           } else {
@@ -187,7 +195,7 @@ botoes.addEventListener("click", (event) => {
 historico.addEventListener("click", (event) => {
   const alvo = event.target;
 
-  const classes = [...alvo.classList]
+  const classes = [...alvo.classList];
   classes.map((item) => {
     switch (item) {
       case "add-resultado":
@@ -207,9 +215,31 @@ historico.addEventListener("click", (event) => {
           });
         break;
     }
-  })
+  });
+});
 
-  /* if (alvo.classList[0] === "add-resultado") {
-    entrada.value = adicionarPontoCentena(entrada.value);
-  } */
+let dropBar = false;
+
+historico.addEventListener("mousedown", (event) => {
+  historico.style.userSelect = 'none'
+  dropBar = true;
+});
+
+document.addEventListener("mousemove", (event) => {
+  const lista = document.getElementById("lista-de-resultados");
+  if (dropBar) {
+    let valor = lista.clientHeight
+    if (event.movementY > 0) {
+      valor = valor + 4
+      lista.style.height = valor + "px";
+    } else {
+      valor = valor - 4
+      lista.style.height = valor + "px";
+    }
+  }
+});
+
+document.addEventListener("mouseup", (event) => {
+  historico.style.userSelect = 'initial'
+  dropBar = false;
 });
