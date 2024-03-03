@@ -221,34 +221,28 @@ historico.addEventListener("click", (event) => {
 let dropBar = false;
 
 historico.addEventListener("mousedown", (event) => {
-  historico.style.userSelect = "none";
   dropBar = true;
 });
 
 document.addEventListener("mousemove", (event) => {
-  const lista = document.getElementById("lista-de-resultados");
-  const iconEspandir = document.querySelector(
-    ".historico__icon-expandir-container"
-  );
-  /* 
+  if (!event.clientX) {
+    historico.style.userSelect = "none";
+  }
+  
   if (dropBar) {
-    let localização = Math.abs((event.clientY - historico.getBoundingClientRect().top) - lista.clientHeight);
-    console.log(localização);
-    lista.style.height = localização + 'px' 
-  } */
+    const lista = document.getElementById("lista-de-resultados");
+    const iconEspandir = document.querySelector(
+      ".historico__icon-expandir-container"
+    );
 
-  if (dropBar) {
     let valor = lista.clientHeight;
+    let valorMax =
+      main.clientHeight - iconEspandir.clientHeight - historico.clientHeight;
 
     if (event.movementY > 0) {
       valor = valor + event.movementY;
-      console.log(main.clientHeight - iconEspandir.clientHeight);
-      lista.style.height =
-        Math.min(
-          valor,
-          main.clientHeight - iconEspandir.clientHeight - historico.clientHeight
-        ) + "px";
-    } else { bbbbbbbb
+      lista.style.height = Math.min(valor, valorMax) + "px";
+    } else {
       valor = valor - Math.abs(event.movementY);
       lista.style.height = valor + "px";
     }
