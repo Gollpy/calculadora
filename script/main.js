@@ -227,6 +227,7 @@ historico.addEventListener("mousedown", (event) => {
 
 document.addEventListener("mousemove", (event) => {
   const lista = document.getElementById("lista-de-resultados");
+  const iconEspandir = document.querySelector('.historico__icon-expandir-container')
 /* 
   if (dropBar) {
     let localização = Math.abs((event.clientY - historico.getBoundingClientRect().top) - lista.clientHeight);
@@ -239,8 +240,8 @@ document.addEventListener("mousemove", (event) => {
 
     if (event.movementY > 0) {
       valor = valor + event.movementY
-      console.log(Math.min(valor, main.clientHeight));
-      lista.style.height = Math.min(valor, main.clientHeight) + "px";
+      console.log(main.clientHeight - iconEspandir.clientHeight);
+      lista.style.height = Math.min(valor, (main.clientHeight - iconEspandir.clientHeight - historico.clientHeight)) + "px";
     } else {
       valor = valor - Math.abs(event.movementY)
       lista.style.height = valor + "px";
