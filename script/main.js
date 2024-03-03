@@ -219,17 +219,50 @@ historico.addEventListener("click", (event) => {
 });
 
 let dropBar = false;
+let startY = 0;
+
+historico.addEventListener("touchstart",( event) => {
+  dropBar = true;
+  startY = event.touches[0].clientY; // Obtém a posição inicial do toque
+},{passive:true});
+
+document.addEventListener("touchmove", (event) => {
+  if (dropBar) {
+    event.preventDefault(); // Impede o comportamento padrão de scroll
+    const lista = document.getElementById("lista-de-resultados");
+    const iconEspandir = document.querySelector(".historico__icon-expandir-container");
+
+    let valor = lista.clientHeight;
+    let valorMax = main.clientHeight - iconEspandir.clientHeight - historico.clientHeight;
+    let deltaY = event.touches[0].clientY - startY; // Calcula a diferença de movimento no eixo Y
+
+    if (deltaY > 0) {
+      valor = valor + deltaY;
+      lista.style.height = Math.min(valor, valorMax) + "px";
+    } else {
+      valor = valor - Math.abs(deltaY);
+      lista.style.height = valor + "px";
+    }
+    startY = event.touches[0].clientY; // Atualiza a posição inicial do toque
+  }
+},{passive:true});
+
+document.addEventListener("touchend", () => {
+  dropBar = false;
+},{passive:true});
+
+/* let dropBar = false;
 
 historico.addEventListener("mousedown", (event) => {
   dropBar = true;
 });
 
 document.addEventListener("mousemove", (event) => {
-  if (!event.clientX) {
-    historico.style.userSelect = "none";
-  }
   
   if (dropBar) {
+    if (!event.clientX) {
+      historico.style.userSelect = "none";
+    }
     const lista = document.getElementById("lista-de-resultados");
     const iconEspandir = document.querySelector(
       ".historico__icon-expandir-container"
@@ -250,6 +283,6 @@ document.addEventListener("mousemove", (event) => {
 });
 
 document.addEventListener("mouseup", (event) => {
-  historico.style.userSelect = "initial";
+  // historico.style.userSelect = "initial";
   dropBar = false;
-});
+}); */
