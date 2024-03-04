@@ -218,22 +218,29 @@ historico.addEventListener("click", (event) => {
   });
 });
 
-let dropBar = false;
+/* let dropBar = false;
 let startY = 0;
 
-historico.addEventListener("touchstart",( event) => {
-  dropBar = true;
-  startY = event.touches[0].clientY; // Obtém a posição inicial do toque
-},{passive:true});
+historico.addEventListener(
+  "touchstart",
+  (event) => {
+    dropBar = true;
+    startY = event.touches[0].clientY; // Obtém a posição inicial do toque
+  },
+  { passive: true }
+);
 
 document.addEventListener("touchmove", (event) => {
   if (dropBar) {
-    event.preventDefault(); // Impede o comportamento padrão de scroll
+    // event.preventDefault(); // Impede o comportamento padrão de scroll
     const lista = document.getElementById("lista-de-resultados");
-    const iconEspandir = document.querySelector(".historico__icon-expandir-container");
+    const iconEspandir = document.querySelector(
+      ".historico__icon-expandir-container"
+    );
 
     let valor = lista.clientHeight;
-    let valorMax = main.clientHeight - iconEspandir.clientHeight - historico.clientHeight;
+    let valorMax =
+      main.clientHeight - iconEspandir.clientHeight - historico.clientHeight;
     let deltaY = event.touches[0].clientY - startY; // Calcula a diferença de movimento no eixo Y
 
     if (deltaY > 0) {
@@ -245,20 +252,21 @@ document.addEventListener("touchmove", (event) => {
     }
     startY = event.touches[0].clientY; // Atualiza a posição inicial do toque
   }
-},{passive:true});
+});
 
-document.addEventListener("touchend", () => {
-  dropBar = false;
-},{passive:true});
-
-/* let dropBar = false;
+document.addEventListener(
+  "touchend",
+  () => {
+    dropBar = false;
+  },
+  { passive: true }
+);
 
 historico.addEventListener("mousedown", (event) => {
   dropBar = true;
 });
 
 document.addEventListener("mousemove", (event) => {
-  
   if (dropBar) {
     if (!event.clientX) {
       historico.style.userSelect = "none";

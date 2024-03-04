@@ -31,7 +31,7 @@
         <p class="msg-error__text">erro de sintaxe</p>
       </div>
       <div class="historico" id="historico">
-        <div class="historico__drop-bar">
+        <div class="historico__head">
           <svg
             class="historico__icon-history icon-history"
             xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@
               d="M476.704-92Q318.666-92 207.03-200.618 95.394-309.236 91.667-467.334h104.999q5.768 113.867 85.837 192.267 80.069 78.401 194.164 78.401 118.666 0 202-83.548Q762-363.761 762-483.214 762-600.667 678.418-682q-83.582-81.334-201.751-81.334-59 0-112 24.167t-93.001 66.833H355v81H113.334V-831h78.999v89.667q55.334-60 128.5-93.667Q394-868.667 476.667-868.667 557-868.667 628-838t124.327 83.174q53.327 52.507 83.833 122.833 30.507 70.326 30.507 150.66 0 80.333-30.507 151.326-30.506 70.992-83.833 123.833Q699-153.333 628-122.667 557-92 476.704-92ZM595-308.667l-153.333-152V-682h78.999v187.333L652.333-366 595-308.667Z"
             />
           </svg>
-          <span class="historico__drop-bar__text">Historico</span>
+          <span class="historico__head__text">Historico</span>
         </div>
         <div class="historico__content-main">
           <ul class="historico__lista" id="lista-de-resultados">
@@ -330,7 +330,7 @@
               </div>
             </li>
           </ul>
-        <div class="historico__icon-expandir-container">
+        <div class="historico__drop-bar">
           <svg
           class="historico__icon-expandir icon-expandir"
           xmlns="http://www.w3.org/2000/svg"
@@ -393,6 +393,7 @@
       </div>
     </div>
 
-    <script type="module" src="./script/main.js"></script>
+    <script type="module" src="./script/app.js"></script>
+    <script type="module" src="./script/appHistoricoDropBar.js"></script>
   </body>
 </html>
