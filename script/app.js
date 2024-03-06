@@ -17,6 +17,7 @@ revisar todos os eventos e aplicas as bos praticas
 */
 const main = document.querySelector(".main");
 const entrada = document.getElementById("entrada");
+const expressaoAtual = document.querySelector(".historico__expressao-atual")
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
 const MsgError = document.getElementById("msg-error");
@@ -99,6 +100,8 @@ entrada.addEventListener("input", (event) => {
   alvo.value = adicionarPontoCentena(alvo.value);
   lengthPosterior = entrada.value.length;
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
+  
+  expressaoAtual.innerText = entrada.value;
 });
 
 /* =============================================== */
@@ -188,6 +191,8 @@ botoes.addEventListener("click", (event) => {
   entrada.value = adicionarPontoCentena(entrada.value);
   lengthPosterior = entrada.value.length;
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
+
+  expressaoAtual.innerText = entrada.value;
 });
 
 /* =============================================== */

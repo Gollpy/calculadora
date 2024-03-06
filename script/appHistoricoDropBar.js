@@ -1,9 +1,45 @@
 const main = document.querySelector(".main");
 const historico = document.getElementById("historico");
-
 const lista = document.getElementById("lista-de-resultados");
+const item = lista.querySelector(".historico__item");
 const dropBar = document.querySelector(".historico__drop-bar");
+const expressaoAtual = document.querySelector(".historico__expressao-atual");
+const entrada = document.getElementById("entrada");
 
+let pontosDeParada = {
+  _0: 0,
+  _1: item.clientHeight,
+  _2: item.clientHeight * 2,
+  _3: item.clientHeight * 3,
+  _4: [
+    item.clientHeight / 2 + item.clientHeight * 3,
+    main.clientHeight -
+      historico.clientHeight -
+      expressaoAtual.clientHeight -
+      dropBar.clientHeight -
+      historico.querySelector(".historico__content-main").offsetTop,
+  ],
+};
+window.addEventListener("resize", function (event) {});
+
+function dimensaoDaLista(params) {
+  const list = lista.style;
+  const condisao = lista.clientHeight;
+  if (condisao > pontosDeParada._4[0] || condisao === pontosDeParada._4[0]) {
+    list.height = pontosDeParada._4[1] + "px";
+  } else if (condisao > pontosDeParada._3 || condisao === pontosDeParada._3) {
+    list.height = pontosDeParada._3 + "px";
+  } else if (condisao > pontosDeParada._2 || condisao === pontosDeParada._2) {
+    list.height = pontosDeParada._2 + "px";
+  } else if (condisao > pontosDeParada._1 || condisao === pontosDeParada._1) {
+    list.height = pontosDeParada._1 + "px";
+  } else if (condisao > pontosDeParada._0 || condisao === pontosDeParada._0) {
+    expressaoAtual.style.display = "none";
+    list.height = pontosDeParada._0 + "px";
+  }
+}
+
+/* ------------------------ */
 let dropBarEvent = false;
 let touchStartY = 0;
 
@@ -11,11 +47,15 @@ let touchStartY = 0;
 
 historico.addEventListener(
   "touchstart",
-  (event) => {
+  function (event) {
+    expressaoAtual.style.display = "block";
+    lista.style.transition = "none";
+
     if (!event.target.closest("#" + lista.id)) {
       dropBarEvent = true;
       touchStartY = event.touches[0].clientY; // Obtém a posição inicial do toque
     }
+
   },
   { passive: false }
 );
@@ -28,7 +68,11 @@ document.addEventListener(
 
       let valor = lista.clientHeight;
       let valorMax =
-        main.clientHeight - dropBar.clientHeight - historico.clientHeight;
+        main.clientHeight -
+        dropBar.clientHeight -
+        historico.clientHeight -
+        expressaoAtual.clientHeight;
+      console.log(valorMax);
       let deltaY = event.touches[0].clientY - touchStartY; // Calcula a diferença de movimento no eixo Y
 
       if (deltaY > 0) {
@@ -46,8 +90,12 @@ document.addEventListener(
 
 document.addEventListener(
   "touchend",
-  () => {
+  function (event) {
+    document.body.style.userSelect = "initial";
+    lista.style.transition = "1s";
+
     dropBarEvent = false;
+    dimensaoDaLista();
   },
   { passive: false }
 );
@@ -55,6 +103,9 @@ document.addEventListener(
 /* eventos de mouse */
 
 historico.addEventListener("mousedown", (event) => {
+  expressaoAtual.style.display = "block";
+  lista.style.transition = "none";
+
   if (!event.target.closest("#" + lista.id)) {
     dropBarEvent = true;
   }
@@ -66,7 +117,10 @@ document.addEventListener("mousemove", (event) => {
 
     let valor = lista.clientHeight;
     let valorMax =
-      main.clientHeight - dropBar.clientHeight - historico.clientHeight;
+      main.clientHeight -
+      dropBar.clientHeight -
+      historico.clientHeight -
+      expressaoAtual.clientHeight;
 
     if (event.movementY > 0) {
       valor = valor + event.movementY;
@@ -80,5 +134,14 @@ document.addEventListener("mousemove", (event) => {
 
 document.addEventListener("mouseup", (event) => {
   document.body.style.userSelect = "initial";
+  lista.style.transition = "1s";
+
   dropBarEvent = false;
+  dimensaoDaLista();
+
+  /*  if (condition) {
+    
+  } else {
+    
+  } */
 });

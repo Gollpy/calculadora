@@ -91,13 +91,24 @@ width: 100%;
 
   position: relative;
   right: 0;
-  top: 0;
+  top: -28;
   fill: #97a5b3;
   z-index: 1;
 }
 
+.historico__expressao-atual{
+  display: none;
+  width: 100%;
+  padding: 5px 0 5px 0;
+  text-align: center;
+}
+.display-on{
+  display: block;
+}
+.historico__expressao-atual__texto{
+}
+
 .historico__drop-bar {
-  height: 25px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -107,6 +118,7 @@ width: 100%;
 }
 
 .historico__icon-expandir {
+  height: 29px;
   fill: #ff9a00;
   height: inherit;
   width: auto;

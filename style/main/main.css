@@ -25,7 +25,7 @@ width: 100%;
     box-sizing: border-box;
     width: 100%;
     max-height: 70px;
-    margin: 50px 0 30px 0;
+    margin: 60px 0 30px 0;
     font-size: 40px;
     padding: 0;
     padding-right: 10px;
@@ -46,6 +46,7 @@ width: 100%;
     min-height: 200px;
     max-height: 370px;
     padding: 10px 8px;
+    margin-top: 10px;
     display: grid;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(5, 1fr);
@@ -73,12 +74,13 @@ width: 100%;
     }
 
     .entrada {
-        margin-top: 30px;
+        margin-top: 50px;
         margin-bottom:0;
         font-size: 30px;
     }
 
     #botoes{
+        margin-top: 10px;
         max-height: 270px;
     }
 
