@@ -6,25 +6,24 @@ const dropBar = document.querySelector(".historico__drop-bar");
 const expressaoAtual = document.querySelector(".historico__expressao-atual");
 const entrada = document.getElementById("entrada");
 
-let pontosDeParada = {
-  _0: 0,
-  _1: item.clientHeight,
-  _2: item.clientHeight * 2,
-  _3: item.clientHeight * 3,
-  _4: [
-    item.clientHeight / 2 + item.clientHeight * 3,
-    main.clientHeight -
-      historico.clientHeight -
-      expressaoAtual.clientHeight -
-      dropBar.clientHeight -
-      historico.querySelector(".historico__content-main").offsetTop,
-  ],
-};
-window.addEventListener("resize", function (event) {});
-
-function dimensaoDaLista(params) {
+function dimensionarLista(params) {
   const list = lista.style;
   const condisao = lista.clientHeight;
+
+  let pontosDeParada = {
+    _0: 0,
+    _1: item.clientHeight,
+    _2: item.clientHeight * 2,
+    _3: item.clientHeight * 3,
+    _4: [
+      item.clientHeight / 2 + item.clientHeight * 3,
+      main.clientHeight -
+        historico.clientHeight -
+        expressaoAtual.clientHeight -
+        dropBar.clientHeight,
+    ],
+  };
+
   if (condisao > pontosDeParada._4[0] || condisao === pontosDeParada._4[0]) {
     list.height = pontosDeParada._4[1] + "px";
   } else if (condisao > pontosDeParada._3 || condisao === pontosDeParada._3) {
@@ -39,6 +38,18 @@ function dimensaoDaLista(params) {
   }
 }
 
+window.addEventListener("resize", function (event) {
+  const targ = event.target
+
+  if (
+    targ.innerWidth < 360 ||
+    targ.innerWidth === 360
+  ) {
+    dimensionarLista();
+  } else if (targ.innerWidth > 360) {
+    dimensionarLista();
+  }
+});
 /* ------------------------ */
 let dropBarEvent = false;
 let touchStartY = 0;
@@ -55,14 +66,13 @@ historico.addEventListener(
       dropBarEvent = true;
       touchStartY = event.touches[0].clientY; // Obtém a posição inicial do toque
     }
-
   },
   { passive: false }
 );
 
 document.addEventListener(
   "touchmove",
-  (event) => {
+  function (event) {
     if (dropBarEvent) {
       event.preventDefault(); // Impede o comportamento padrão de scroll
 
@@ -95,14 +105,14 @@ document.addEventListener(
     lista.style.transition = "1s";
 
     dropBarEvent = false;
-    dimensaoDaLista();
+    dimensionarLista();
   },
   { passive: false }
 );
 
 /* eventos de mouse */
 
-historico.addEventListener("mousedown", (event) => {
+historico.addEventListener("mousedown", function (event) {
   expressaoAtual.style.display = "block";
   lista.style.transition = "none";
 
@@ -111,7 +121,7 @@ historico.addEventListener("mousedown", (event) => {
   }
 });
 
-document.addEventListener("mousemove", (event) => {
+document.addEventListener("mousemove", function (event) {
   if (dropBarEvent) {
     document.body.style.userSelect = "none";
 
@@ -132,12 +142,12 @@ document.addEventListener("mousemove", (event) => {
   }
 });
 
-document.addEventListener("mouseup", (event) => {
+document.addEventListener("mouseup", function (event) {
   document.body.style.userSelect = "initial";
   lista.style.transition = "1s";
 
   dropBarEvent = false;
-  dimensaoDaLista();
+  dimensionarLista();
 
   /*  if (condition) {
     
