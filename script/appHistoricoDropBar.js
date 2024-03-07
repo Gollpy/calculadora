@@ -9,7 +9,27 @@ const entrada = document.getElementById("entrada");
 function dimensionarLista(params) {
   const list = lista.style;
   const condisao = lista.clientHeight;
-
+/* 
+  function val(params) {
+    if (item) {
+      return {
+        _0: 0,
+        _1: item.clientHeight,
+        _2: item.clientHeight * 2,
+        _3: item.clientHeight * 3,
+        _4: [
+          item.clientHeight / 2 + item.clientHeight * 3,
+          main.clientHeight -
+            historico.clientHeight -
+            expressaoAtual.clientHeight -
+            dropBar.clientHeight,
+        ],
+      };
+    } else {
+      return 0;
+    }
+  } */
+  
   let pontosDeParada = {
     _0: 0,
     _1: item.clientHeight,
@@ -22,9 +42,12 @@ function dimensionarLista(params) {
         expressaoAtual.clientHeight -
         dropBar.clientHeight,
     ],
-  };
+  };;
 
-  if (condisao > pontosDeParada._4[0] || condisao === pontosDeParada._4[0]) {
+  if (pontosDeParada === 0) {
+    expressaoAtual.style.display = "none";
+    list.height = pontosDeParada + "px";
+  } else if (condisao > pontosDeParada._4[0] || condisao === pontosDeParada._4[0]) {
     list.height = pontosDeParada._4[1] + "px";
   } else if (condisao > pontosDeParada._3 || condisao === pontosDeParada._3) {
     list.height = pontosDeParada._3 + "px";
@@ -39,16 +62,8 @@ function dimensionarLista(params) {
 }
 
 window.addEventListener("resize", function (event) {
-  const targ = event.target
-
-  if (
-    targ.innerWidth < 360 ||
-    targ.innerWidth === 360
-  ) {
-    dimensionarLista();
-  } else if (targ.innerWidth > 360) {
-    dimensionarLista();
-  }
+  const targ = event.target;
+  dimensionarLista();
 });
 /* ------------------------ */
 let dropBarEvent = false;
