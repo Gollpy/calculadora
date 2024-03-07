@@ -9,7 +9,7 @@ const entrada = document.getElementById("entrada");
 function dimensionarLista(params) {
   const list = lista.style;
   const condisao = lista.clientHeight;
-/* 
+
   function val(params) {
     if (item) {
       return {
@@ -28,7 +28,7 @@ function dimensionarLista(params) {
     } else {
       return 0;
     }
-  } */
+  }
   
   let pontosDeParada = {
     _0: 0,
