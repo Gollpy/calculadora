@@ -17,12 +17,13 @@ function dimensionarLista(params) {
   const main = document.querySelector(".main");
 
   let pontosDeParada;
+  let newHeight;
 
   if (item) {
     pontosDeParada = {
       _0: 0,
-      _1: item.clientHeight,
-      _2: item.clientHeight * 2,
+      _1: item.clientHeight + 20,
+      _2: item.clientHeight * 2 + 20,
       _3: item.clientHeight * 3,
       _4: [
         item.clientHeight / 2 + item.clientHeight * 3,
@@ -34,33 +35,46 @@ function dimensionarLista(params) {
     };
 
     if (condisao >= pontosDeParada._4[0]) {
-      console.log("c1");
-      list.height = pontosDeParada._4[1] + "px";
+      newHeight = pontosDeParada._4[1];
     } else if (condisao >= pontosDeParada._3) {
-      console.log("c2");
-      list.height = pontosDeParada._3 + "px";
+      newHeight = pontosDeParada._3;
     } else if (condisao >= pontosDeParada._2) {
-      console.log("c3");
-      list.height = pontosDeParada._2 + "px";
+      newHeight = pontosDeParada._2;
     } else if (condisao >= pontosDeParada._1) {
-      console.log("c4");
-      list.height = pontosDeParada._1 + "px";
+      newHeight = pontosDeParada._1;
     } else if (condisao >= pontosDeParada._0) {
-      console.log("c5");
       expressaoAtual.style.display = "none";
-      list.height = pontosDeParada._0 + "px";
+      newHeight = pontosDeParada._0;
     }
+
+    list.height = newHeight + "px";
+   
   } else {
-    console.log("anão a histórico");
+    console.log("não a histórico");
     expressaoAtual.style.display = "none";
     list.height = 0 + "px";
   }
 }
+/* animação */
+let animatedCssRotate = {
+  _0deg: "transition: 0.250s; rotate: 0deg;",
+  _180deg: "transition: 0.250s; rotate: -180deg;",
+};
+let iea = false;
+function iconExpandirAnimated(params) {
+  const icon = dropBar.querySelector(".icon-expandir");
+  if (params == true) {
+    icon.style.cssText = animatedCssRotate._180deg;
+    iea = true;
+  } else if (params == false) {
+    icon.style.cssText = animatedCssRotate._0deg;
+    iea = false;
+  } else if (params == "auto" || params == undefined) {
+    iea = !iea;
+  }
+}
+/* =======================*/
 
-window.addEventListener("resize", function (event) {
-  const targ = event.target;
-  dimensionarLista();
-});
 /* ======================= */
 let dropBarEvent = false;
 let touchStartY = 0;
@@ -70,11 +84,19 @@ function eventStart(event) {
     expressaoAtual.style.display = "block";
     lista.style.transition = "none";
     dropBarEvent = true;
-    touchStartY = event.touches[0].clientY; // Obtém a posição inicial do toque
+
+    switch (event.type) {
+      case "touchstart":
+        touchStartY = event.touches[0].clientY;
+        break;
+      case "mousedown":
+        touchStartY = event.clientY;
+        break;
+    }
   }
 }
-
 function eventEnd(event) {
+  iconExpandirAnimated(false);
   document.body.style.userSelect = "initial";
   lista.style.transition = "1s";
 
@@ -82,8 +104,61 @@ function eventEnd(event) {
   dimensionarLista();
 }
 
-/* eventos de touch */
+//xxxxxxxxx
 
+function eventMovement(event) {
+  let touch;
+
+  switch (event.type) {
+    case "touchmove":
+      touch = event.touches[0];
+      break;
+    case "mousemove":
+      touch = event;
+      break;
+  }
+
+  if (dropBarEvent) {
+    // document.body.style.userSelect = "none";
+    event.preventDefault();
+
+    let valor = lista.clientHeight;
+    let valorMax =
+      main.clientHeight -
+      dropBar.clientHeight -
+      historico.clientHeight -
+      expressaoAtual.clientHeight;
+
+    let touchMov = touch.clientY - touchStartY;
+
+    if (touchMov > 0) {
+      iconExpandirAnimated(false);
+      valor = valor + touchMov;
+      lista.style.height = Math.min(valor, valorMax) + "px";
+    } else {
+      iconExpandirAnimated(true);
+      valor = valor - Math.abs(touchMov);
+      lista.style.height = valor + "px";
+    }
+
+    touchStartY = touch.clientY;
+  }
+}
+
+/* --- eventos --- */
+historico.addEventListener('click', function() {
+/* 
+  a lista devera crescer quando dropBar receber um click
+  armazenar informações em um objeto
+*/
+})
+
+window.addEventListener("resize", function (event) {
+  const targ = event.target;
+  dimensionarLista();
+});
+
+/*--- eventos de touch ----*/
 historico.addEventListener(
   "touchstart",
   function (event) {
@@ -95,27 +170,7 @@ historico.addEventListener(
 document.addEventListener(
   "touchmove",
   function (event) {
-    if (dropBarEvent) {
-      event.preventDefault(); // Impede o comportamento padrão de scroll
-
-      let valor = lista.clientHeight;
-      let valorMax =
-        main.clientHeight -
-        dropBar.clientHeight -
-        historico.clientHeight -
-        expressaoAtual.clientHeight;
-
-      let deltaY = event.touches[0].clientY - touchStartY; // Calcula a diferença de movimento no eixo Y
-
-      if (deltaY > 0) {
-        valor = valor + deltaY;
-        lista.style.height = Math.min(valor, valorMax) + "px";
-      } else {
-        valor = valor - Math.abs(deltaY);
-        lista.style.height = valor + "px";
-      }
-      touchStartY = event.touches[0].clientY; // Atualiza a posição inicial do toque
-    }
+    eventMovement(event);
   },
   { passive: false }
 );
@@ -127,34 +182,17 @@ document.addEventListener(
   },
   { passive: false }
 );
-
-/* eventos de mouse */
-
+/* ----------------------- */
+/*--- eventos de mouse ---*/
 historico.addEventListener("mousedown", function (event) {
   eventStart(event);
 });
 
 document.addEventListener("mousemove", function (event) {
-  if (dropBarEvent) {
-    document.body.style.userSelect = "none";
-
-    let valor = lista.clientHeight;
-    let valorMax =
-      main.clientHeight -
-      dropBar.clientHeight -
-      historico.clientHeight -
-      expressaoAtual.clientHeight;
-
-    if (event.movementY > 0) {
-      valor = valor + event.movementY;
-      lista.style.height = Math.min(valor, valorMax) + "px";
-    } else {
-      valor = valor - Math.abs(event.movementY);
-      lista.style.height = valor + "px";
-    }
-  }
+  eventMovement(event);
 });
 
 document.addEventListener("mouseup", function (event) {
-  eventEnd(); 
+  eventEnd(event);
 });
+/* ----------------------- */

@@ -12,22 +12,12 @@ export function addAoHistorico(expressao, resultado) {
         />
     </svg>
     <div class="historico__botoes">
-        <button
-        class="historico__botao copiar"
-        data-valor="${expressao}">
-        copiar expressao
-        </button>
-        <button
-        class="historico__botao copiar"
-        data-valor="${resultado}">
-        copiar resultado
-        </button>
+        <button class="historico__botao action-copy" data-value="${expressao}">copiar expressao</button>
+        <button class="historico__botao action-copy" data-value="${resultado}">copiar resultado</button>
     </div>
     <div class="historico__valores">
-        <samp class="historico__texto">${expressao} =</samp>
-        <samp class="historico__texto">${resultado} =</samp>
+        <samp class="historico__texto action-transfer" data-value="${expressao}">${expressao} =</samp>
+        <samp class="historico__texto action-transfer" data-value="${resultado}">${resultado}</samp>
     </div>
 </li>`;
 }
-
-

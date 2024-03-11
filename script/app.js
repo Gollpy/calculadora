@@ -17,10 +17,11 @@ revisar todos os eventos e aplicas as bos praticas
 */
 const main = document.querySelector(".main");
 const entrada = document.getElementById("entrada");
-const expressaoAtual = document.querySelector(".historico__expressao-atual")
+const expressaoAtual = document.querySelector(".historico__expressao-atual");
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
 const MsgError = document.getElementById("msg-error");
+const listaDeLista = document.querySelector("#lista-de-resultados");
 
 /* =============================================== */
 
@@ -100,7 +101,7 @@ entrada.addEventListener("input", (event) => {
   alvo.value = adicionarPontoCentena(alvo.value);
   lengthPosterior = entrada.value.length;
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
-  
+
   expressaoAtual.innerText = entrada.value;
 });
 
@@ -155,8 +156,7 @@ botoes.addEventListener("click", (event) => {
           var resultado = adicionarPontoCentena(operacoes(entrada.value));
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
-            historico.querySelector("#lista-de-resultados").innerHTML +=
-              addAoHistorico(expressaoInput, resultado);
+            listaDeLista.innerHTML += addAoHistorico(expressaoInput, resultado);
             entrada.setSelectionRange(-1, -1);
             PPB_A = -1;
           } else {
@@ -222,6 +222,13 @@ historico.addEventListener("click", (event) => {
     }
   });
 });
+
+for (let index = 0; index < 4; index++) {
+  document.querySelector("#lista-de-resultados").innerHTML += addAoHistorico(
+    "77+33",
+    "100"
+  );
+}
 
 /* let dropBar = false;
 let startY = 0;
