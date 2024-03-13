@@ -51,8 +51,7 @@
 width: 100%;  
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  
+  align-items: flex-end;  
 }
 
 .historico__item:nth-child(odd) {
@@ -91,13 +90,13 @@ width: 100%;
 
   position: relative;
   right: 0;
-  top: -28;
+  top: 0;
   fill: #97a5b3;
   z-index: 1;
 }
 
 .historico__expressao-atual{
-  display: none;
+display: none;
   width: 100%;
   padding: 5px 0 5px 0;
   text-align: center;
@@ -133,16 +132,15 @@ width: 100%;
   align-items: end;
   justify-content: center;
   right: 40px;
-  top:10px;
-  z-index: 99;
+  top: 0px;
+  z-index: 90;
   background-color: #556b80;
 
   visibility: hidden;
   border-radius: 5px;
 }
 
-.historico__botoes .copiar,
-.adicionar {
+.historico__botoes .historico__botao {
   background: none;
   border: none;
   padding: 4px 0;
@@ -153,6 +151,7 @@ width: 100%;
   min-height: 20px;
   width: 100%;
   border-bottom: 1px solid #2c354d;
+  user-select: none;
 }
 
 /* @media screen and (max-width: 370px) {
@@ -160,5 +159,5 @@ width: 100%;
   .historico__lista {
     max-height:100px;
   }
-
+  
 } */

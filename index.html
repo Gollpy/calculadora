@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style/main/main.css" />
     <link rel="stylesheet" href="./style/main/botao.css" />
-    <link rel="stylesheet" href="./style/mensagemError.css" />
+    <link rel="stylesheet" href="./style/mensagens.css" />
     <link rel="stylesheet" href="./style/historico.css" />
     <link rel="stylesheet" href="./style/stylesCalls.css" />
 
@@ -27,10 +27,14 @@
   - click nos três postos para copiar um dos valores(expre../resul..) no histórico
  -->
   <body>
+    <div class="msg-copiado">
+      <span class="msg-copiado__text">copiado</span>
+      </div>
     <div class="main">
       <div class="msg-error msg-error--off" id="msg-error">
         <p class="msg-error__text">erro de sintaxe</p>
       </div>
+      <div></div>
       <div class="historico" id="historico">
         <div class="historico__head">
           <svg
