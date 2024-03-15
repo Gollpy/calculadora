@@ -1,14 +1,17 @@
-const item = document.querySelectorAll(".historico__item");
-
-const entrada = document.getElementById("entrada");
-const botoes = document.querySelectorAll(".historico__botoes");
-
-const moreHoriz = document.querySelector(".historico__icon-More-Horiz");
 const lista = document.getElementById("lista-de-resultados");
-const dropBar = document.querySelector(".historico__drop-bar");
+const entrada = document.getElementById("entrada");
 
-let buttonVisibility = false;
-let msgCopiado = true;
+
+// const item = document.querySelectorAll(".historico__item");
+// const botoes = document.querySelectorAll(".historico__botoes");
+// const moreHoriz = document.querySelector(".historico__icon-More-Horiz");
+// const dropBar = document.querySelector(".historico__drop-bar");
+
+function EscButt() {
+  document.querySelectorAll(".historico__botoes").forEach((element) => {
+    element.style.cssText = "";
+  });
+}
 
 function type(event) {
   let target = event.target;
@@ -23,7 +26,6 @@ function type(event) {
   } else if (element("action-copy") && type === "click") {
     copy(event);
   }
-  console.log(element());
 }
 
 function copy(params) {
@@ -38,7 +40,7 @@ function copy(params) {
     .writeText(addValue)
     .then(() => {
       mensagem.style.cssText = `visibility: visible; top: ${localzc.y}px; left: ${localzc.x}px;`;
-
+      EscButt();
       setTimeout(function (r) {
         mensagem.style.cssText = `visibility: hidden; top: 0; left: 0;`;
       }, 500);
@@ -59,20 +61,14 @@ function transfer(params) {
 function mostrarBotao(params) {
   const localzc =
     params.target.closest(".historico__item").getBoundingClientRect().top -
-    params.currentTarget.getBoundingClientRect().top +
+    document.getElementById("lista-de-resultados").getBoundingClientRect().top +
     params.target.closest(".icon-More-Horiz").clientHeight;
   let target = params.target
     .closest(".historico__item")
     .querySelector(".historico__botoes");
 
-  buttonVisibility = !buttonVisibility;
-
-  if (buttonVisibility) {
-    target.style.visibility = "visible";
-    target.style.top = `${localzc}px`;
-  } else {
-    target.style.visibility = "hidden";
-  }
+  target.style.visibility = "visible";
+  target.style.top = `${localzc}px`;
 }
 
 function bloquearSelecao(params) {
@@ -102,6 +98,8 @@ lista.addEventListener("click", (event) => {
   type(event);
 });
 
-document.addEventListener("click", (event) => {});
-
-document.addEventListener("mousedown", (event) => {});
+document.addEventListener("mousedown", (event) => {
+  if (!event.target.closest(".historico__botoes")) {
+    EscButt();
+  }
+});
