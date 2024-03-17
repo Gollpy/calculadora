@@ -1,13 +1,12 @@
 const lista = document.getElementById("lista-de-resultados");
 const entrada = document.getElementById("entrada");
 
-
 // const item = document.querySelectorAll(".historico__item");
 // const botoes = document.querySelectorAll(".historico__botoes");
 // const moreHoriz = document.querySelector(".historico__icon-More-Horiz");
 // const dropBar = document.querySelector(".historico__drop-bar");
 
-function EscButt() {
+function hidButt() {
   document.querySelectorAll(".historico__botoes").forEach((element) => {
     element.style.cssText = "";
   });
@@ -40,7 +39,7 @@ function copy(params) {
     .writeText(addValue)
     .then(() => {
       mensagem.style.cssText = `visibility: visible; top: ${localzc.y}px; left: ${localzc.x}px;`;
-      EscButt();
+      hidButt();
       setTimeout(function (r) {
         mensagem.style.cssText = `visibility: hidden; top: 0; left: 0;`;
       }, 500);
@@ -100,6 +99,6 @@ lista.addEventListener("click", (event) => {
 
 document.addEventListener("mousedown", (event) => {
   if (!event.target.closest(".historico__botoes")) {
-    EscButt();
+    hidButt();
   }
 });

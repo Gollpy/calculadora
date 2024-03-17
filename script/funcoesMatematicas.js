@@ -126,6 +126,7 @@ function operacaoEntreParenteses(input) {
 
   if (captura) {
     let valida = captura[2] + captura[3] + captura[4];
+    console.log(valida);
     let resultado = captura[3];
     while (/[\u221A\u005E%]/.test(resultado)) {
       if (/[\u221A]/.test(resultado)) {
@@ -136,14 +137,12 @@ function operacaoEntreParenteses(input) {
         resultado = porcentagem(resultado);
       }
     }
-
-    if (resultado !== "error") {
+    if (resultado !== "error") { 
       resultado = `${avaliarExpressao(resultado)}`;
 
       if (captura[1] && captura[5]) {
         return input.replace(valida, `*${resultado}*`);
       } else if (captura[1]) {
-        console.log(input);
         return input.replace(valida, `*${resultado}`);
       } else if (captura[5]) {
         return input.replace(valida, `${resultado}*`);

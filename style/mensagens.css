@@ -1,19 +1,25 @@
 /* mensagem erro */
 .msg-error {
-  visibility: hidden;
-  display: flex;
   width: 130px;
   height: 30px;
+  padding: 5px 3px 5px 3px;
+
   border-radius: 6px;
+
   background-color: rgb(214, 29, 29);
-  color: rgb(255, 255, 255);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   position: absolute;
   top: 30px;
   left: 10px;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 3px 5px 3px;
   z-index: 99;
+  
+  visibility: hidden;
+
+  color: rgb(255, 255, 255);
 }
 
 .msg-error .msg-error__text {
@@ -31,16 +37,16 @@
 }
 
 /* mensagem copiado */
-.msg-copiado{
-  position:fixed;
-  box-sizing:content-box;
+.msg-copiado {
+  position: fixed;
+  box-sizing: content-box;
   margin: 0;
   text-align: center;
   padding: 2px 2px;
-  line-height:21px;
+  line-height: 21px;
   background-color: rgb(87, 176, 192);
   width: 65px;
-  height: 25px;
+  height: 25px; 
   border-radius: 25%/ 60% 60% 5% 60%;
   border: 1px solid #a5a5a5;
   box-shadow: 2px 2px 0px 0px #313131;
@@ -50,7 +56,8 @@
   z-index: 99;
 }
 
-.msg-copiado__text{
+.msg-copiado__text {
   color: rgb(0, 0, 0);
+  font-size: 16px;
   font-weight: 600;
 }

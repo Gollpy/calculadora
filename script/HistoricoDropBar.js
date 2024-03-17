@@ -60,8 +60,10 @@ let animatedCssRotate = {
   _0deg: "transition: 0.250s; rotate: 0deg;",
   _180deg: "transition: 0.250s; rotate: -180deg;",
 };
+
 let iea = false;
-function iconExpandirAnimated(params) {
+
+function iconExpandAnimated(params) {
   const icon = dropBar.querySelector(".icon-expandir");
   if (params == true) {
     icon.style.cssText = animatedCssRotate._180deg;
@@ -96,7 +98,7 @@ function eventStart(event) {
   }
 }
 function eventEnd(event) {
-  iconExpandirAnimated(false);
+  iconExpandAnimated(false);
   document.body.style.userSelect = "initial";
   lista.style.transition = "1s";
 
@@ -132,11 +134,11 @@ function eventMovement(event) {
     let touchMov = touch.clientY - touchStartY;
 
     if (touchMov > 0) {
-      iconExpandirAnimated(false);
+      iconExpandAnimated(false);
       valor = valor + touchMov;
       lista.style.height = Math.min(valor, valorMax) + "px";
     } else {
-      iconExpandirAnimated(true);
+      iconExpandAnimated(true);
       valor = valor - Math.abs(touchMov);
       lista.style.height = valor + "px";
     }

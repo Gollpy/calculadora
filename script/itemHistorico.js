@@ -1,4 +1,4 @@
-export function addAoHistorico(expressao, resultado) {
+export function itemHistorico(expressao, resultado) {
   return `
   <li class="historico__item">
     <svg 

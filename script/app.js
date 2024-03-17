@@ -1,7 +1,7 @@
 import { mensagemDeErro } from "./mensagemError.js";
 import { operacoes } from "./funcoesMatematicas.js";
-import { addAoHistorico } from "./historicoDeResultados.js";
-import {
+import { itemHistorico } from "./itemHistorico.js";
+ import {
   removerCaracterNaoPermitidos,
   adicionarPontoCentena,
   adicionarCaractere,
@@ -54,7 +54,7 @@ entrada.addEventListener("keydown", (event) => {
       if (entrada.value && entrada.value !== resultado) {
         entrada.value = resultado;
         historico.querySelector("#lista-de-resultados").innerHTML +=
-          addAoHistorico(expressaoInput, resultado);
+          itemHistorico(expressaoInput, resultado);
         entrada.setSelectionRange(-1, -1);
         PPB_A = -1;
       } else {
@@ -156,7 +156,7 @@ botoes.addEventListener("click", (event) => {
           var resultado = adicionarPontoCentena(operacoes(entrada.value));
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
-            listaDeLista.innerHTML += addAoHistorico(expressaoInput, resultado);
+            listaDeLista.innerHTML += itemHistorico(expressaoInput, resultado);
             entrada.setSelectionRange(-1, -1);
             PPB_A = -1;
           } else {
@@ -224,7 +224,7 @@ historico.addEventListener("click", (event) => {
 });
 
 for (let index = 0; index < 4; index++) {
-  document.querySelector("#lista-de-resultados").innerHTML += addAoHistorico(
+  document.querySelector("#lista-de-resultados").innerHTML += itemHistorico(
     "77+33",
     "100"
   );
