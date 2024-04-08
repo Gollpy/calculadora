@@ -1,6 +1,7 @@
 /* mensagem erro */
 .msg-error {
-  width: 130px;
+
+  width: auto;
   height: 30px;
   padding: 5px 3px 5px 3px;
 
@@ -27,7 +28,6 @@
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
 }
-
 .msg-error--off {
   visibility: hidden;
 }

@@ -22,24 +22,41 @@ export function removerCaracterNaoPermitidos(input) {
   }
 }
 
-export function adicionarPontoCentena(numero) {
-  var numeroString = numero.toString();
+ export function adicionarPontoCentena(expr) {
+  expr = expr.toString().replaceAll(".", "");
 
-  // remove todos os pontos
-  numeroString = numeroString.replace(/[.]/g, "");
-  //inverte a string
-  var numeroInvertido = numeroString.split("").reverse().join("");
-  // add os pontos(.)
-  var numeroFormatado = numeroInvertido.replace(/((?:\d+[,])?\d{3})/g, "$1.");
-  /* remove os pontos indesejados ex: '1.234.+123.'->'1.234+123'
-     e inverte novamente a string */
-  numeroFormatado = numeroFormatado
-    .replace(/(?!\d)[.](?!\d)/g, "")
-    .split("")
-    .reverse()
-    .join("");
+  let str = [];
+  let a = [];
+  let con = 0;
+  for (let index = expr.length - 1; index >= 0; index--) {
+    let element = expr[index];
 
-  return numeroFormatado;
+    if (con === 3) {
+      a += '.'
+      con = 0;
+    }
+    if (Number(element)) {
+      a += element
+      con++;
+    }
+    if (!Number(element)) {
+      if (element === ",") {
+        a = a.replaceAll(".", "");
+      }
+      if (a[a.length - 1] === ".") {
+        a = a.split("")
+        a.pop();
+        a = a.join("")
+      }
+      str += a;
+      a = '';
+      str += element;
+      con = 0;
+    }
+  }
+  str += a;
+  str = str.split("").reverse().join("");
+  return str;
 }
 
 /*>->->->->->- a função add dois tipos de caracteres, números de 0 a 9, 
@@ -158,3 +175,67 @@ function processarCasosNormais(captura) {
 }
 
 //<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-
+function teste(par) {}
+
+/* 
+
+function adicionarPontoCentena(numero) {
+    console.time('funcao1');
+  var numeroString = numero.toString();
+
+  // remove todos os pontos
+  numeroString = numeroString.replaceAll(".", "");
+  //inverte a string
+  var numeroInvertido = numeroString.split("").reverse().join("");
+  // add os pontos(.)
+  var numeroFormatado = numeroInvertido.replace(/((?:\d+[,])?\d{3})/g, "$1.");
+  // remove os pontos indesejados ex: '1.234.+123.'->'1.234+123'
+  //    e inverte novamente a string
+  numeroFormatado = numeroFormatado
+    .replace(/(?!\d)[.](?!\d)/g, "")
+    .split("")
+    .reverse()
+    .join("");
+
+      console.timeEnd('funcao1');
+  return numeroFormatado;
+}
+ */
+/* 
+
+expr = expr.toString().replaceAll(".", "");
+
+  let str = [];
+  let a = [];
+  let con = 0;
+  for (let index = expr.length - 1; index >= 0; index--) {
+    let element = expr[index];
+
+    if (con === 3) {
+      a.push(".");
+      con = 0;
+    }
+    if (Number(element)) {
+      a.push(element);
+      con++;
+    }
+    if (!Number(element)) {
+      if (element === ",") {
+        a = a.join("");
+        a = a.replaceAll(".", "");
+        a = a.split("");
+      }
+      if (a[a.length - 1] === ".") {
+        a.pop();
+      }
+      str = str.concat(a);
+      a = [];
+      str.push(element);
+      con = 0;
+    }
+  }
+  str = str.concat(a);
+  str = str.reverse().join("");
+  return str;
+
+*/

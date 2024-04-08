@@ -1,7 +1,7 @@
 import { mensagemDeErro } from "./mensagemError.js";
 import { operacoes } from "./funcoesMatematicas.js";
 import { itemHistorico } from "./itemHistorico.js";
- import {
+import {
   removerCaracterNaoPermitidos,
   adicionarPontoCentena,
   adicionarCaractere,
@@ -11,7 +11,12 @@ import { itemHistorico } from "./itemHistorico.js";
 } from "./manipuladorEntrada.js";
 
 /* 
-
+-------------
+!! identificar e resolver os problemas
+!! aplicar novo recurso: 
+ao colar uma expressão contendo operadores com os simbolo '*, **, /, etc...', 
+eles deveram ser substituidos por seus correspondentes 'x, ^, ÷, etc...'
+-------------  
 revisar todos os eventos e aplicas as bos praticas
 
 */
@@ -20,10 +25,39 @@ const entrada = document.getElementById("entrada");
 const expressaoAtual = document.querySelector(".historico__expressao-atual");
 const botoes = document.getElementById("botoes");
 const historico = document.getElementById("historico");
-const MsgError = document.getElementById("msg-error");
 const listaDeLista = document.querySelector("#lista-de-resultados");
+const resultadoAtual = document.querySelector(".resultado");
+const MsgError = {
+  sintaxe: "erro de sintaxe",
+  infinity: "não foi possível calcular",
+};
+let resultadoDaExpressao = "";
 
 /* =============================================== */
+
+entrada.addEventListener("input", (event) => {
+  var alvo = event.target;
+  var PPB_A = entrada.selectionStart;
+  var PPB_B = entrada.selectionEnd;
+  var lengthAnterior = entrada.value.length;
+  var lengthPosterior;
+  resultadoDaExpressao = operacoes(entrada.value);
+
+  alvo.value = removerCaracterNaoPermitidos(alvo.value);
+  alvo.value = adicionarPontoCentena(alvo.value);
+  lengthPosterior = entrada.value.length;
+  retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
+
+  expressaoAtual.innerText = entrada.value;
+
+  if (resultadoDaExpressao[0] === "error") {
+    resultadoAtual.innerText = "";
+  } else {
+    if (entrada.value && entrada.value !== resultadoDaExpressao) {
+      resultadoAtual.innerText = resultadoDaExpressao;
+    }
+  }
+});
 
 entrada.addEventListener("keydown", (event) => {
   const expressaoInput = `${entrada.value}`;
@@ -38,6 +72,7 @@ entrada.addEventListener("keydown", (event) => {
     raiz: "\u221A",
     potencia: "^",
   };
+
   if (event.key === "*") {
     adicionarCaractere(entrada, caractere.multiplicar);
   } else if (event.key === "/") {
@@ -49,8 +84,14 @@ entrada.addEventListener("keydown", (event) => {
   } else if (event.key === "Dead") {
     adicionarCaractere(entrada, caractere.potencia);
   } else if (event.key === "Enter") {
-    if (operacoes(entrada.value) !== "error") {
-      var resultado = adicionarPontoCentena(operacoes(entrada.value));
+    if (resultadoDaExpressao[0] === "error") {
+      if (resultadoDaExpressao[1] === "infinity") {
+        mensagemDeErro(MsgError.infinity);
+      } else if (resultadoDaExpressao[1] === "sintaxe") {
+        mensagemDeErro(MsgError.sintaxe);
+      }
+    } else {
+      var resultado = adicionarPontoCentena(resultadoDaExpressao);
       if (entrada.value && entrada.value !== resultado) {
         entrada.value = resultado;
         historico.querySelector("#lista-de-resultados").innerHTML +=
@@ -60,8 +101,6 @@ entrada.addEventListener("keydown", (event) => {
       } else {
         entrada.value = entrada.value;
       }
-    } else {
-      mensagemDeErro(MsgError);
     }
   } else if (event.key === "Backspace") {
     // desabilita as ações das teclas, impedindo que "Backspace" apague um caractere a mais
@@ -86,24 +125,12 @@ entrada.addEventListener("keydown", (event) => {
     lengthPosterior = entrada.value.length;
     retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
   }
+
+  let eventInput = new Event("input");
+  entrada.dispatchEvent(eventInput);
 });
 
 /* =============================================== */
-
-entrada.addEventListener("input", (event) => {
-  var alvo = event.target;
-  var PPB_A = entrada.selectionStart;
-  var PPB_B = entrada.selectionEnd;
-  var lengthAnterior = entrada.value.length;
-  var lengthPosterior;
-
-  alvo.value = removerCaracterNaoPermitidos(alvo.value);
-  alvo.value = adicionarPontoCentena(alvo.value);
-  lengthPosterior = entrada.value.length;
-  retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
-
-  expressaoAtual.innerText = entrada.value;
-});
 
 /* =============================================== */
 
@@ -152,24 +179,23 @@ botoes.addEventListener("click", (event) => {
 
         break;
       case "igual":
-        if (operacoes(entrada.value) !== "error") {
-          var resultado = adicionarPontoCentena(operacoes(entrada.value));
+        if (resultadoDaExpressao[0] === "error") {
+          if (resultadoDaExpressao[1] === "infinity") {
+            mensagemDeErro(MsgError.infinity);
+          } else if (resultadoDaExpressao[1] === "sintaxe") {
+            mensagemDeErro(MsgError.sintaxe);
+          }
+        } else {
+          var resultado = adicionarPontoCentena(resultadoDaExpressao);
           if (entrada.value && entrada.value !== resultado) {
             entrada.value = resultado;
             listaDeLista.innerHTML += itemHistorico(expressaoInput, resultado);
-            entrada.setSelectionRange(-1, -1);
-            PPB_A = -1;
           } else {
             entrada.value = entrada.value;
           }
-        } else {
-          mensagemDeErro(MsgError);
         }
-
-        /* if (calidar() === "error") {
-            mensagemDeErro(MsgError);
-          }
-         */
+        PPB_A = -1;
+        entrada.setSelectionRange(-1, -1);
 
         break;
       case "inverter-sinal":
@@ -193,6 +219,9 @@ botoes.addEventListener("click", (event) => {
   retornaPosicaoDaBarra(entrada, PPB_A, lengthPosterior - lengthAnterior);
 
   expressaoAtual.innerText = entrada.value;
+
+  let eventInput = new Event("input");
+  entrada.dispatchEvent(eventInput);
 });
 
 /* =============================================== */
@@ -222,7 +251,7 @@ historico.addEventListener("click", (event) => {
     }
   });
 });
-
+/* ============================================ */
 for (let index = 0; index < 4; index++) {
   document.querySelector("#lista-de-resultados").innerHTML += itemHistorico(
     "77+33",
