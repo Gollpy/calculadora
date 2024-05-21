@@ -12,6 +12,7 @@ import {
 
 /* 
 -------------
+!!lembrar de documentar tudo que é feito
 !! identificar e resolver os problemas
 !! aplicar novo recurso: 
 ao colar uma expressão contendo operadores com os simbolo '*, **, /, etc...', 
